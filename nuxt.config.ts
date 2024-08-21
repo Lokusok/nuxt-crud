@@ -5,10 +5,7 @@ export default defineNuxtConfig({
   imports: {
     autoImport: false
   },
-  modules: [
-    '@nuxtjs/tailwindcss',
-    '@prisma/nuxt'
-  ],
+  modules: ['@nuxtjs/tailwindcss', '@prisma/nuxt', "nuxt-svgo"],
   app: {
     head: {
       title: 'Nuxt CRUD',
@@ -24,5 +21,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     serverApiBase: 'https://jsonplaceholder.typicode.com/'
+  },
+  prisma: {
+    installStudio: false
   }
 })

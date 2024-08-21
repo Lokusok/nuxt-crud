@@ -1,4 +1,5 @@
 import { defineEventHandler, getRouterParam, setResponseStatus } from "#imports"
+
 import { prismaClient } from "~/server/orm"
 
 export default defineEventHandler(async (event) => {
@@ -8,11 +9,15 @@ export default defineEventHandler(async (event) => {
   let result = null
 
   if (id) {
-    result = await prismaClient.user.findFirst({
-      where: {
-        id: Number(id)
-      }
-    })
+    try {
+      result = await prismaClient.user.findFirst({
+        where: {
+          id: Number(id)
+        }
+      })
+    } catch (e) {
+      status = 400
+    }
   } else {
     status = 400
   }

@@ -1,6 +1,11 @@
 <template>
   <div>
-    <TheButton @click="$router.go(-1)">
+    <TheButton
+      class="flex gap-x-1 items-center"
+      @click="() => $router.go(-1)"
+    >
+      <!-- <img src="~/assets/arrow-left.svg" alt="" aria-hidden="true"> -->
+      <ArrowLeft />
       Go back
     </TheButton>
   </div>
@@ -79,22 +84,27 @@
         </KeepAlive>
 
         <TheAlert
-          v-if="message.length"
+          v-if="displayedMessage.content.length"
+          :variation="displayedMessage.variation"
         >
-          {{ message }}
+          {{ displayedMessage.content }}
         </TheAlert>
       </div>
     </template>
 
-    <TheAlert v-else variation="danger">
+    <TheAlert
+      v-else
+      variation="danger"
+    >
       Error occured...
     </TheAlert>
   </template>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter, useFetch, useSeoMeta } from '#app'
+import ArrowLeft from '~/assets/arrow-left.svg'
 
 import UserForm from '~/components/UserForm.vue'
 import TheAlert from '~/components/TheAlert.vue';
@@ -117,13 +127,25 @@ const isDeleteRequestNow = ref(false)
 
 const mode = ref<'show' | 'edit'>('show')
 const message = ref('')
+const error = ref('')
 const isDeleting = ref(false)
 
 const userFormRef = ref<{ resetForm: () => void } | null>()
 
-watch(message, (newValue) => {
-  if (newValue) {
-    setTimeout(() => message.value = '', 3000)
+const displayedMessage = computed<{ content: string, variation: 'danger' | 'info' }>(() => {
+  let variation = 'info'
+
+  if (error.value) variation = 'danger'
+
+  return {
+    content: message.value || error.value,
+    variation
+  } as { content: string, variation: 'danger' | 'info' }
+})
+
+watch([message, error], (newValues) => {
+  if ([newValues].some(Boolean)) {
+    setTimeout(() => message.value = error.value = '', 3000)
   }
 })
 
@@ -134,24 +156,26 @@ function toggleEdit() {
 async function editUser({ name, email }: { name: string, email: string }) {
   isEditRequestNow.value = true
 
-  const response = await $fetch<{ status: number }>(`/api/users/${route.params.id}`, {
-    method: 'PATCH',
-    body: {
-      name,
-      email
-    }
-  })
+  try {
+    const response = await $fetch<{ status: number }>(`/api/users/${route.params.id}`, {
+      method: 'PATCH',
+      body: {
+        name,
+        email
+      }
+    })
 
-  if (response.status === 200) {
-    message.value = 'User successfully updated!'
-    refresh()
-  } else {
-    message.value = 'Error occured'
+    if (response.status === 200) {
+      message.value = 'User successfully updated!'
+      refresh()
+    }
+  } catch (e) {
+    error.value = 'Error occured'
+  } finally {
+    isEditRequestNow.value = false
+    mode.value = 'show'
   }
 
-  isEditRequestNow.value = false
-
-  mode.value = 'show'
 }
 
 function startDelete() {
@@ -165,14 +189,16 @@ function stopDelete() {
 async function deleteUser() {
   isDeleteRequestNow.value = true
 
-  const response = await $fetch<{ status: number }>(`/api/users/${route.params.id}`, {
-    method: 'DELETE'
-  })
+  try {
+    const response = await $fetch<{ status: number }>(`/api/users/${route.params.id}`, {
+      method: 'DELETE'
+    })
 
-  if (response.status === 200) {
-    router.go(-1)
-  } else {
-    message.value = 'Error occured'
+    if (response.status === 200) {
+      router.go(-1)
+    }
+  } catch (e) {
+    error.value = 'Error occured'
     stopDelete()
   }
 

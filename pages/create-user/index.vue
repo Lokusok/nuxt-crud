@@ -27,6 +27,8 @@
 import { computed, ref, watch } from 'vue'
 import { useSeoMeta } from '#app'
 
+import type { User } from '@prisma/client'
+
 import UserForm from '~/components/UserForm.vue'
 import TheAlert from '~/components/TheAlert.vue';
 import FadeTransition from '~/components/FadeTransition.vue';
@@ -36,7 +38,7 @@ useSeoMeta({
 })
 
 const isCreating = ref(false)
-const prevCreatedUser = ref<object | null>(null)
+const prevCreatedUser = ref<User | null>(null)
 
 const message = ref('')
 const error = ref('')
@@ -67,7 +69,7 @@ async function createUser({ name, email }: { name: string, email: string }) {
   isCreating.value = true
 
   try {
-    const response = await $fetch<{ status: number, data: object }>('/api/users', {
+    const response = await $fetch<{ status: number, data: User }>('/api/users', {
       method: 'POST',
       body: {
         name,

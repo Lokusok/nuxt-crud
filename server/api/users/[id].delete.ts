@@ -1,4 +1,5 @@
 import { defineEventHandler, getRouterParam, setResponseStatus } from "#imports"
+
 import { prismaClient } from "~/server/orm"
 
 export default defineEventHandler(async (event) => {
@@ -8,11 +9,15 @@ export default defineEventHandler(async (event) => {
   let result = null
 
   if (id) {
-    result = await prismaClient.user.delete({
-      where: {
-        id: Number(id)
-      }
-    })
+    try {
+      result = await prismaClient.user.delete({
+        where: {
+          id: Number(id)
+        }
+      })
+    } catch (e) {
+      status = 400
+    }
 
     if (!result) {
       status = 404
