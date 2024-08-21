@@ -13,12 +13,16 @@
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@prisma/nuxt": "^0.0.35",
     "axios": "^1.7.4",
+    "bcrypt": "^5.1.1",
     "nuxt": "^3.12.4",
+    "nuxt-auth-utils": "^0.3.4",
     "nuxt-lucide-icons": "^1.0.5",
     "nuxt-svgo": "^4.0.3",
     "vue": "latest"
   },
   "devDependencies": {
-    "@prisma/client": "^5.18.0"
+    "@prisma/client": "^5.18.0",
+    "@types/bcrypt": "^5.0.2",
+    "nuxt-file-storage": "^0.2.7"
   }
 }

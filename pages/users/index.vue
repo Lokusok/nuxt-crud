@@ -46,8 +46,11 @@
 
 <script setup lang="ts">
 import { useFetch, useRoute, useRouter, useSeoMeta } from '#app';
+import { useUserSession } from '#imports';
 import { ref, watchEffect } from 'vue';
 import ThePagination from '~/components/ThePagination.vue';
+
+const { loggedIn } = useUserSession()
 
 useSeoMeta({
   title: 'List of users'

@@ -4,8 +4,7 @@
       class="flex gap-x-1 items-center"
       @click="() => $router.go(-1)"
     >
-      <!-- <img src="~/assets/arrow-left.svg" alt="" aria-hidden="true"> -->
-      <ArrowLeft />
+      <ArrowLeftIcon />
       Go back
     </TheButton>
   </div>
@@ -104,7 +103,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter, useFetch, useSeoMeta } from '#app'
-import ArrowLeft from '~/assets/arrow-left.svg'
+import ArrowLeftIcon from '~/assets/arrow-left.svg'
 
 import UserForm from '~/components/UserForm.vue'
 import TheAlert from '~/components/TheAlert.vue';

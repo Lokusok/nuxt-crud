@@ -17,8 +17,9 @@ CREATE TABLE "new_User" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "email" TEXT NOT NULL,
     "name" TEXT NOT NULL
+    "avatar" TEXT NOT NULL
 );
-INSERT INTO "new_User" ("email", "id", "name") SELECT "email", "id", "name" FROM "User";
+INSERT INTO "new_User" ("email", "id", "name", "avatar") SELECT "email", "id", "name", "avatar" FROM "User";
 DROP TABLE "User";
 ALTER TABLE "new_User" RENAME TO "User";
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");

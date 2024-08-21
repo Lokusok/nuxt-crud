@@ -5,7 +5,13 @@ export default defineNuxtConfig({
   imports: {
     autoImport: false
   },
-  modules: ['@nuxtjs/tailwindcss', '@prisma/nuxt', "nuxt-svgo"],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@prisma/nuxt',
+    'nuxt-svgo',
+    'nuxt-auth-utils',
+    'nuxt-file-storage'
+],
   app: {
     head: {
       title: 'Nuxt CRUD',
@@ -24,5 +30,16 @@ export default defineNuxtConfig({
   },
   prisma: {
     installStudio: false
+  },
+  tailwindcss: {
+    config: {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Montserrat', 'sans-serif']
+          }
+        }
+      }
+    }
   }
 })

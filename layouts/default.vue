@@ -40,24 +40,38 @@
           </ul>
         </nav>
 
-        <div class="absolute right-4 top-[50%] -translate-y-[50%] text-white flex gap-x-3 items-center">
-          <NuxtLink
-            to="/login"
-            activeClass="underline"
-            class="text-white text-[20px] hover:opacity-70"
-          >
-            Login
-          </NuxtLink>
+        <div
+          class="absolute right-4 top-[50%] -translate-y-[50%] text-white flex gap-x-3 items-center"
+        >
+          <template v-if="!userSession.loggedIn.value">
+            <NuxtLink
+              to="/login"
+              activeClass="underline"
+              class="text-white text-[20px] hover:opacity-70"
+            >
+              Login
+            </NuxtLink>
 
-          /
+            /
 
-          <NuxtLink
-            to="/register"
-            activeClass="underline"
-            class="text-white text-[20px] hover:opacity-70"
+            <NuxtLink
+              to="/register"
+              activeClass="underline"
+              class="text-white text-[20px] hover:opacity-70"
+            >
+              Register
+            </NuxtLink>
+          </template>
+
+          <TheButton
+            v-else
+            variation="danger"  
+            class="flex items-center gap-x-2"
+            @click="logout"
           >
-            Register
-          </NuxtLink>
+            <LogoutIcon />
+            Logout
+          </TheButton>
         </div>
       </div>
     </header>
@@ -76,5 +90,16 @@
       </div>
     </footer>
   </div>
-
 </template>
+
+<script setup lang="ts">
+import { useUserSession, watchEffect } from '#imports';
+import TheButton from '~/components/TheButton.vue';
+import LogoutIcon from '~/assets/logout.svg'
+
+const userSession = useUserSession()
+
+function logout() {
+  userSession.clear()
+}
+</script>
