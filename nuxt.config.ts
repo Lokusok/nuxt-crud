@@ -5,11 +5,13 @@ export default defineNuxtConfig({
   imports: {
     autoImport: false
   },
+  modules: [
+    '@nuxtjs/tailwindcss'
+  ],
   app: {
     head: {
       title: 'Nuxt CRUD',
-      script: [{ src: 'https://cdn.tailwindcss.com' }]
-    }
+    },
   },
   router: {
     options: {

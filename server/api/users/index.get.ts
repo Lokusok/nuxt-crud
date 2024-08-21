@@ -6,11 +6,16 @@ export default defineEventHandler(async (event) => {
 
   const start = (Number(query.page) - 1) * USERS_PER_PAGE
 
+  if (Number.isNaN(start)) {
+    return {
+      status: 404,
+      data: []
+    }
+  }
+
   const response = await apiUsers.get(`?_start=${start}&_limit=${USERS_PER_PAGE}`)
 
   setResponseStatus(event, response.status)
-
-  console.log('here')
 
   return {
     status: response.status,

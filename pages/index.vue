@@ -45,12 +45,13 @@
 </template>
 
 <script setup lang="ts">
-import { useFetch, useRoute, useRouter, useSeoMeta, useState } from '#app';
+import { navigateTo, useFetch, useRoute, useRouter, useSeoMeta, useState } from '#app';
+import { watchEffect } from 'vue';
 import ThePagination from '~/components/ThePagination.vue';
 
 const router = useRouter()
 const route = useRoute()
-const currentPage = useState('current-page', () => Number(route.query.page))
+const currentPage = useState('current-page', () => Number(route.query.page ?? 1))
 
 useSeoMeta({
   title: 'List of users'
@@ -58,13 +59,18 @@ useSeoMeta({
 
 const { data: users, status } = useFetch(`/api/users?page=${currentPage.value}`, {
   watch: [currentPage],
-  onResponse: () => {
-    router.push({ query: { page: currentPage.value } })
+})
+
+watchEffect(() => {
+  if (!users.value?.data?.length) {
+    currentPage.value = 1
+    return router.replace({ path: '/', query: {} })
   }
+
+  router.push({ path: '/', query: { page: currentPage.value } })
 })
 
 function handlePaginationChange(page: number) {
-  console.log({ page })
   currentPage.value = page
 }
 </script>
