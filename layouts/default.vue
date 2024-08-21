@@ -21,6 +21,15 @@
             </li>
             <li>
               <NuxtLink
+                to="/users"
+                activeClass="underline"
+                class="text-white text-[20px] hover:opacity-70"
+              >
+                Users
+              </NuxtLink>
+            </li>
+            <li>
+              <NuxtLink
                 :to="{ name: 'create-user' }"
                 activeClass="underline"
                 class="text-white text-[20px] hover:opacity-70"
@@ -30,6 +39,26 @@
             </li>
           </ul>
         </nav>
+
+        <div class="absolute right-4 top-[50%] -translate-y-[50%] text-white flex gap-x-3 items-center">
+          <NuxtLink
+            to="/login"
+            activeClass="underline"
+            class="text-white text-[20px] hover:opacity-70"
+          >
+            Login
+          </NuxtLink>
+
+          /
+
+          <NuxtLink
+            to="/register"
+            activeClass="underline"
+            class="text-white text-[20px] hover:opacity-70"
+          >
+            Register
+          </NuxtLink>
+        </div>
       </div>
     </header>
 

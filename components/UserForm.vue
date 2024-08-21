@@ -6,24 +6,24 @@
     <div>
       <label class="flex flex-col gap-y-1">
         Name of user:
-        <input
+        <TheInput
           v-model="name"
           class="px-2 py-1 rounded border-2 border-blue-800"
           type="text"
           placeholder="John"
-        >
+        />
       </label>
     </div>
 
     <div>
       <label class="flex flex-col gap-y-1">
         Email of user:
-        <input
+        <TheInput
           v-model="email"
           class="px-2 py-1 rounded border-2 border-blue-800"
           type="text"
           placeholder="john@example.com"
-        >
+        />
       </label>
     </div>
 
@@ -38,6 +38,7 @@
 
 <script setup lang="ts">
 import { ref, computed, withDefaults } from 'vue'
+import TheInput from './TheInput.vue';
 
 const props = withDefaults(defineProps<{
   isSubmitButtonDisabled?: boolean,
