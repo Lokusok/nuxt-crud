@@ -21,7 +21,7 @@
         </h2>
       </div>
 
-      <div class="flex flex-col gap-y-3 px-3">
+      <div class="flex flex-col mx-auto gap-y-3 px-3 max-w-[420px]">
         <NuxtLink
           v-for="user in users.data"
           :key="user.id"
@@ -32,16 +32,39 @@
           <span class="text-gray-300 text-sm">{{ user.email }}</span>
         </NuxtLink>
       </div>
+
+      <div class="flex justify-center pt-[20px]">
+        <ThePagination
+          :current-page="currentPage"
+          :max-page="users.max_page"
+          @change="handlePaginationChange"
+        />
+      </div>
     </template>
   </template>
 </template>
 
 <script setup lang="ts">
-import { useFetch, useSeoMeta } from '#app';
+import { useFetch, useRoute, useRouter, useSeoMeta, useState } from '#app';
+import ThePagination from '~/components/ThePagination.vue';
+
+const router = useRouter()
+const route = useRoute()
+const currentPage = useState('current-page', () => Number(route.query.page))
 
 useSeoMeta({
   title: 'List of users'
 })
 
-const { data: users, status } = useFetch('/api/users')
+const { data: users, status } = useFetch(`/api/users?page=${currentPage.value}`, {
+  watch: [currentPage],
+  onResponse: () => {
+    router.push({ query: { page: currentPage.value } })
+  }
+})
+
+function handlePaginationChange(page: number) {
+  console.log({ page })
+  currentPage.value = page
+}
 </script>
