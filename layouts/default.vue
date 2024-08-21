@@ -34,7 +34,7 @@
     </header>
 
     <div class="grow">
-      <div class="container mx-auto py-3">
+      <div class="container mx-auto py-3 px-3 my-3">
         <slot />
       </div>
     </div>

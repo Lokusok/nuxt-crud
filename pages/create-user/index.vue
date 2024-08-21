@@ -1,14 +1,16 @@
 <template>
   <UserForm
     @submit="createUser"
-    :isSubmitButtonDisabled="isSubmitButtonDisabled"
+    :is-submit-button-disabled="isSubmitButtonDisabled"
     ref="userFormRef"
-    submitText="Create new user"
+    submit-text="Create new user"
   />
 
-  <TheAlert v-if="message.length">
-    {{ message }}
-  </TheAlert>
+  <FadeTransition>
+    <TheAlert v-if="message.length">
+      {{ message }}
+    </TheAlert>
+  </FadeTransition>
 </template>
 
 <script setup lang="ts">
@@ -17,6 +19,7 @@ import { useSeoMeta } from '#app'
 
 import UserForm from '~/components/UserForm.vue'
 import TheAlert from '~/components/TheAlert.vue';
+import FadeTransition from '~/components/FadeTransition.vue';
 
 useSeoMeta({
   title: 'Create user'

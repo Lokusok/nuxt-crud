@@ -1,21 +1,30 @@
 <template>
-  <div class="flex justify-center mb-[20px]">
-    <h2 class="text-center text-[30px] font-bold">
-      List of users
-    </h2>
+  <div
+    v-if="status === 'pending'"
+    class="flex justify-center"
+  >
+    <TheSpinner />
   </div>
 
-  <div class="flex flex-col gap-y-3 px-3">
-    <NuxtLink
-      v-for="user in users"
-      :key="user.id"
-      :to="`/users/${user.id}`"
-      class="hover:opacity-70 active:opacity-50 bg-white border-[2px] border-slate-700 rounded px-4 py-4 flex flex-col gap-y-2"
-    >
-      <span class="text-xl">{{ user.name }}</span>
-      <span class="text-gray-300 text-sm">{{ user.email }}</span>
-    </NuxtLink>
-  </div>
+  <template v-else>
+    <div class="flex justify-center mb-[20px]">
+      <h2 class="text-center text-[30px] font-bold">
+        List of users
+      </h2>
+    </div>
+
+    <div class="flex flex-col gap-y-3 px-3">
+      <NuxtLink
+        v-for="user in users"
+        :key="user.id"
+        :to="`/users/${user.id}`"
+        class="hover:opacity-70 active:opacity-50 bg-white border-[2px] border-slate-700 rounded px-4 py-4 flex flex-col gap-y-2"
+      >
+        <span class="text-xl">{{ user.name }}</span>
+        <span class="text-gray-300 text-sm">{{ user.email }}</span>
+      </NuxtLink>
+    </div>
+  </template>
 </template>
 
 <script setup lang="ts">
@@ -25,5 +34,5 @@ useSeoMeta({
   title: 'List of users'
 })
 
-const { data: users } = useFetch('https://jsonplaceholder.typicode.com/users')
+const { data: users, status } = useFetch('https://jsonplaceholder.typicode.com/users')
 </script>
