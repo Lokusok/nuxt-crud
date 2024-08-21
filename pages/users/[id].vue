@@ -14,8 +14,8 @@
     </div>
   
     <div class="max-w-[400px] mx-auto flex flex-col justify-center items-center gap-y-2">
-      <h2 class="text-xl font-bold">{{ user.name }}</h2>
-      <p class="text-gray-600 text-sm">{{ user.email }}</p>
+      <h2 class="text-xl font-bold">{{ user.data.name }}</h2>
+      <p class="text-gray-600 text-sm">{{ user.data.email }}</p>
       <div class="flex gap-x-3">
         <TheButton @click="toggleEdit">
           {{ mode === 'show' ? 'Edit this user' : 'Stop edit' }}
@@ -23,7 +23,7 @@
         
         <TheButton
           @click="startDelete"
-          type="danger"
+          variation="danger"
         >
           Delete user
         </TheButton>
@@ -35,7 +35,7 @@
               @close="stopDelete"
             >
               <div class="pb-1 border-b-2 border-blue-800">
-                <h2 class="text-[20px] font-bold">Delete user Leane Grahham?</h2>
+                <h2 class="text-[20px] font-bold">Delete user {{ user.data.name }}?</h2>
               </div>
 
               <div class="my-3">
@@ -45,10 +45,14 @@
               </div>
 
               <div class="pt-4 border-t-2 border-blue-800 flex justify-end gap-x-3">
-                <TheButton @click="stopDelete">Cancel</TheButton>
+                <TheButton
+                  @click="stopDelete"
+                  :disabled="isDeleteRequestNow"
+                >Cancel</TheButton>
                 <TheButton
                   @click="deleteUser"
-                  type="danger"
+                  :disabled="isDeleteRequestNow"
+                  variation="danger"
                 >
                   Delete
                 </TheButton>
@@ -62,16 +66,19 @@
         <FadeTransition>
           <UserForm
             v-if="mode === 'edit'"
-            :isSubmitButtonDisabled="isEditRequestNow"
-            :defaultName="user.name"
-            :defaultEmail="user.email"
+            :is-submit-button-disabled="isEditRequestNow"
+            :default-name="user.data.name"
+            :default-email="user.data.email"
             ref="userFormRef"
             @submit="editUser"
           />
         </FadeTransition>
       </KeepAlive>
 
-      <TheAlert v-if="message.length">
+      <TheAlert
+        v-if="message.length"
+        variation="danger"
+      >
         {{ message }}
       </TheAlert>
     </div>
@@ -89,21 +96,29 @@ import FadeTransition from '~/components/FadeTransition.vue';
 
 const router = useRouter()
 const route = useRoute()
-const { data: user, status } = useFetch(`https://jsonplaceholder.typicode.com/users/${route.params.id}`);
+const { data: user, status } = useFetch(`/api/users/${route.params.id}`);
 
 useSeoMeta({
   title: () => {
     if (!user.value) return 'User page'
-    else return `User ${user.value.name} page`
+    else return `User ${user.value.data.name} page`
   }
 })
 
 const isEditRequestNow = ref(false)
+const isDeleteRequestNow = ref(false)
+
 const mode = ref<'show' | 'edit'>('show')
 const message = ref('')
 const isDeleting = ref(false)
 
 const userFormRef = ref<{ resetForm: () => void } | null>()
+
+watch(message, (newValue) => {
+  if (newValue) {
+    setTimeout(() => message.value = '', 3000)
+  }
+})
 
 function toggleEdit() {
   mode.value = mode.value === 'show' ? 'edit' : 'show'
@@ -112,7 +127,7 @@ function toggleEdit() {
 async function editUser({ name, email }: { name: string, email: string }) {
   isEditRequestNow.value = true
 
-  const response = await $fetch<{ id: number }>(`https://jsonplaceholder.typicode.com/users/${route.params.id}`, {
+  const response = await $fetch<{ status: number }>(`/api/users/${route.params.id}`, {
     method: 'PATCH',
     body: {
       name,
@@ -120,13 +135,11 @@ async function editUser({ name, email }: { name: string, email: string }) {
     }
   })
 
-  if (response.id) {
+  if (response.status === 200) {
     message.value = 'User successfully updated!'
   } else {
     message.value = 'Error occured'
   }
-
-  setTimeout(() => message.value = '', 3000)
 
   isEditRequestNow.value = false
 
@@ -142,14 +155,19 @@ function stopDelete() {
 }
 
 async function deleteUser() {
-  const response = await $fetch(`https://jsonplaceholder.typicode.com/users/${route.params.id}`, {
+  isDeleteRequestNow.value = true
+
+  const response = await $fetch<{ status: number }>(`/api/users/${route.params.id}`, {
     method: 'DELETE'
   })
 
-  if (response) {
+  if (response.status === 200) {
     router.replace('/')
+  } else {
+    message.value = 'Error occured'
+    stopDelete()
   }
 
-  console.log(response)
+  isDeleteRequestNow.value = false
 }
 </script>

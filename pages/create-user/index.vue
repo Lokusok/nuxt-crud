@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useSeoMeta } from '#app'
 
 import UserForm from '~/components/UserForm.vue'
@@ -34,10 +34,16 @@ const isSubmitButtonDisabled = computed(() => {
   return isCreating.value
 })
 
+watch(message, (newValue) => {
+  if (newValue) {
+    setTimeout(() => message.value = '', 3000)
+  }
+})
+
 async function createUser({ name, email }: { name: string, email: string }) {
   isCreating.value = true
 
-  const response = await $fetch<{ id: number }>('https://jsonplaceholder.typicode.com/users', {
+  const response = await $fetch<{ status: number }>('/api/users', {
     method: 'POST',
     body: {
       name,
@@ -45,7 +51,7 @@ async function createUser({ name, email }: { name: string, email: string }) {
     }
   })
 
-  if (response.id) {
+  if (response.status === 201) {
     message.value = 'User successfully created!'
   } else {
     message.value = 'Error occured'

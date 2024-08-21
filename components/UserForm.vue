@@ -63,7 +63,11 @@ const name = ref(props.defaultName)
 const email = ref(props.defaultEmail)
 
 const isSubmitDisabled = computed(() => {
-  return props.isSubmitButtonDisabled || name.value.length === 0 || email.value.length === 0
+  const isEmpty = name.value.length === 0 || email.value.length === 0
+  const isOuterDisabled = props.isSubmitButtonDisabled
+  const isEqualsAsDefault = name.value.trim() === props.defaultName && email.value.trim() === props.defaultEmail
+
+  return isEmpty || isOuterDisabled || isEqualsAsDefault
 })
 
 function handleSubmit() {

@@ -12,18 +12,18 @@
           <ul class="flex gap-x-5 justify-center">
             <li>
               <NuxtLink
+                to="/"
                 activeClass="underline"
                 class="text-white text-[20px] hover:opacity-70"
-                to="/"
               >
                 Home
               </NuxtLink>
             </li>
             <li>
               <NuxtLink
+                :to="{ name: 'create-user' }"
                 activeClass="underline"
                 class="text-white text-[20px] hover:opacity-70"
-                to="/create-user"
               >
                 Create user
               </NuxtLink>

@@ -18,5 +18,8 @@ export default defineNuxtConfig({
   },
   devServer: {
     port: 3001
+  },
+  runtimeConfig: {
+    serverApiBase: 'https://jsonplaceholder.typicode.com/'
   }
 })
