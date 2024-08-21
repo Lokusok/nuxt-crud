@@ -1,4 +1,10 @@
 <template>
+  <div>
+    <TheButton @click="$router.go(-1)">
+      Go back
+    </TheButton>
+  </div>
+  
   <div
     v-if="status === 'pending'"
     class="flex justify-center"
@@ -7,81 +13,82 @@
   </div>
 
   <template v-else>
-    <div>
-      <TheButton @click="$router.go(-1)">
-        Go back
-      </TheButton>
-    </div>
-  
-    <div class="max-w-[400px] mx-auto flex flex-col justify-center items-center gap-y-2">
-      <h2 class="text-xl font-bold">{{ user.data.name }}</h2>
-      <p class="text-gray-600 text-sm">{{ user.data.email }}</p>
-      <div class="flex gap-x-3">
-        <TheButton @click="toggleEdit">
-          {{ mode === 'show' ? 'Edit this user' : 'Stop edit' }}
-        </TheButton>
+    <template v-if="user.data">
+      <div class="max-w-[400px] mx-auto flex flex-col justify-center items-center gap-y-2">
+        <h2 class="text-xl font-bold">{{ user.data.name }}</h2>
+        <p class="text-gray-600 text-sm">{{ user.data.email }}</p>
+        <div class="flex gap-x-3">
+          <TheButton @click="toggleEdit">
+            {{ mode === 'show' ? 'Edit this user' : 'Stop edit' }}
+          </TheButton>
+          
+          <TheButton
+            @click="startDelete"
+            variation="danger"
+          >
+            Delete user
+          </TheButton>
+
+          <Teleport to="#teleports">
+            <FadeTransition>
+              <TheModal
+                v-if="isDeleting"
+                @close="stopDelete"
+              >
+                <div class="pb-1 border-b-2 border-blue-800">
+                  <h2 class="text-[20px] font-bold text-center">Delete user {{ user.data.name }}?</h2>
+                </div>
+
+                <div class="my-3">
+                  <p class="text-center max-w-[300px]">
+                    Are you sure in this action? <br> User not be recovered!
+                  </p>
+                </div>
+
+                <div class="pt-4 border-t-2 border-blue-800 flex justify-end gap-x-3">
+                  <TheButton
+                    @click="stopDelete"
+                    :disabled="isDeleteRequestNow"
+                  >
+                    Cancel
+                  </TheButton>
+                  <TheButton
+                    @click="deleteUser"
+                    :disabled="isDeleteRequestNow"
+                    variation="danger"
+                  >
+                    Delete
+                  </TheButton>
+                </div>
+              </TheModal>
+            </FadeTransition>
+          </Teleport>
+        </div>
         
-        <TheButton
-          @click="startDelete"
-          variation="danger"
-        >
-          Delete user
-        </TheButton>
-
-        <Teleport to="#teleports">
+        <KeepAlive>
           <FadeTransition>
-            <TheModal
-              v-if="isDeleting"
-              @close="stopDelete"
-            >
-              <div class="pb-1 border-b-2 border-blue-800">
-                <h2 class="text-[20px] font-bold">Delete user {{ user.data.name }}?</h2>
-              </div>
-
-              <div class="my-3">
-                <p class="text-center max-w-[300px]">
-                  Are you sure in this action? <br> User not be recovered!
-                </p>
-              </div>
-
-              <div class="pt-4 border-t-2 border-blue-800 flex justify-end gap-x-3">
-                <TheButton
-                  @click="stopDelete"
-                  :disabled="isDeleteRequestNow"
-                >Cancel</TheButton>
-                <TheButton
-                  @click="deleteUser"
-                  :disabled="isDeleteRequestNow"
-                  variation="danger"
-                >
-                  Delete
-                </TheButton>
-              </div>
-            </TheModal>
+            <UserForm
+              v-if="mode === 'edit'"
+              :is-submit-button-disabled="isEditRequestNow"
+              :default-name="user.data.name"
+              :default-email="user.data.email"
+              ref="userFormRef"
+              @submit="editUser"
+            />
           </FadeTransition>
-        </Teleport>
-      </div>
-      
-      <KeepAlive>
-        <FadeTransition>
-          <UserForm
-            v-if="mode === 'edit'"
-            :is-submit-button-disabled="isEditRequestNow"
-            :default-name="user.data.name"
-            :default-email="user.data.email"
-            ref="userFormRef"
-            @submit="editUser"
-          />
-        </FadeTransition>
-      </KeepAlive>
+        </KeepAlive>
 
-      <TheAlert
-        v-if="message.length"
-        variation="danger"
-      >
-        {{ message }}
-      </TheAlert>
-    </div>
+        <TheAlert
+          v-if="message.length"
+        >
+          {{ message }}
+        </TheAlert>
+      </div>
+    </template>
+
+    <TheAlert v-else variation="danger">
+      Error occured...
+    </TheAlert>
   </template>
 </template>
 
@@ -96,11 +103,11 @@ import FadeTransition from '~/components/FadeTransition.vue';
 
 const router = useRouter()
 const route = useRoute()
-const { data: user, status } = useFetch(`/api/users/${route.params.id}`);
+const { data: user, status, refresh } = useFetch(`/api/users/${route.params.id}`);
 
 useSeoMeta({
   title: () => {
-    if (!user.value) return 'User page'
+    if (!user.value?.data) return 'User page'
     else return `User ${user.value.data.name} page`
   }
 })
@@ -137,6 +144,7 @@ async function editUser({ name, email }: { name: string, email: string }) {
 
   if (response.status === 200) {
     message.value = 'User successfully updated!'
+    refresh()
   } else {
     message.value = 'Error occured'
   }
@@ -162,7 +170,7 @@ async function deleteUser() {
   })
 
   if (response.status === 200) {
-    router.replace('/')
+    router.go(-1)
   } else {
     message.value = 'Error occured'
     stopDelete()

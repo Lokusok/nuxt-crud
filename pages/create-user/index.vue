@@ -7,8 +7,18 @@
   />
 
   <FadeTransition>
-    <TheAlert v-if="message.length">
-      {{ message }}
+    <TheAlert
+      v-if="displayedMessage.content"
+      :variation="displayedMessage.variation"
+    >
+      <p>{{ displayedMessage.content }}</p>
+      <NuxtLink
+        v-if="prevCreatedUser"
+        :to="`/users/${prevCreatedUser.id}`"
+        class="text-blue-800 underline hover:text-blue-500 active:text-blue-300"
+      >
+        Visit him
+      </NuxtLink>
     </TheAlert>
   </FadeTransition>
 </template>
@@ -26,41 +36,56 @@ useSeoMeta({
 })
 
 const isCreating = ref(false)
+const prevCreatedUser = ref<object | null>(null)
 
 const message = ref('')
-const userFormRef = ref<{ resetForm: () => void } | null>(null);
+const error = ref('')
+const userFormRef = ref<{ resetForm: () => void } | null>(null)
+
+const displayedMessage = computed<{ content: string, variation: 'danger' | 'info' }>(() => {
+  let variation = 'info'
+
+  if (error.value) variation = 'danger'
+
+  return {
+    content: message.value || error.value,
+    variation
+  } as { content: string, variation: 'danger' | 'info' }
+})
 
 const isSubmitButtonDisabled = computed(() => {
   return isCreating.value
 })
 
-watch(message, (newValue) => {
-  if (newValue) {
-    setTimeout(() => message.value = '', 3000)
+watch([message, error], (newValues) => {
+  if ([newValues].some(Boolean)) {
+    setTimeout(() => message.value = error.value = '', 3000)
   }
 })
 
 async function createUser({ name, email }: { name: string, email: string }) {
   isCreating.value = true
 
-  const response = await $fetch<{ status: number }>('/api/users', {
-    method: 'POST',
-    body: {
-      name,
-      email
+  try {
+    const response = await $fetch<{ status: number, data: object }>('/api/users', {
+      method: 'POST',
+      body: {
+        name,
+        email
+      }
+    })
+  
+    prevCreatedUser.value = response.data
+  
+    if (response.status === 201) {
+      message.value = 'User successfully created!'
     }
-  })
-
-  if (response.status === 201) {
-    message.value = 'User successfully created!'
-  } else {
-    message.value = 'Error occured'
+  } catch (e) {
+    console.log('here')
+    error.value = 'Error occured'
+  } finally {
+    isCreating.value = false
+    userFormRef.value!.resetForm()
   }
-
-  setTimeout(() => message.value = '', 3000);
-
-  isCreating.value = false
-
-  userFormRef.value!.resetForm()
 }
 </script>

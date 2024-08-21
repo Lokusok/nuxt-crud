@@ -1,15 +1,36 @@
 import { defineEventHandler, readBody, setResponseStatus } from '#imports'
-import { apiUsers } from '~/server/config'
+
+import { prismaClient } from '~/server/orm'
+
+import UserDto from '~/server/dtos/user-dto'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
-  const response = await apiUsers.post('', body)
+  let status = 201
+  let result = null
 
-  setResponseStatus(event, response.status)
+  console.log(body.name, body.email)
+
+  if (UserDto.check(body)) {
+    try {
+      result = await prismaClient.user.create({
+        data: {
+          name: body.name,
+          email: body.email
+        }
+      })
+    } catch (e) {
+      status = 400
+    }
+  } else {
+    status = 400
+  }
+
+  setResponseStatus(event, status)
 
   return {
-    status: response.status,
-    data: response.data
+    status: status,
+    data: result
   }
 })

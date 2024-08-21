@@ -1,15 +1,30 @@
 import { defineEventHandler, getRouterParam, setResponseStatus } from "#imports"
-import { apiUsers } from '~/server/config'
+import { prismaClient } from "~/server/orm"
 
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id')
 
-  const response = await apiUsers.delete(`/${id}`)
+  let status = 200
+  let result = null
 
-  setResponseStatus(event, response.status)
+  if (id) {
+    result = await prismaClient.user.delete({
+      where: {
+        id: Number(id)
+      }
+    })
+
+    if (!result) {
+      status = 404
+    }
+  } else {
+    status = 400
+  }
+
+  setResponseStatus(event, status)
 
   return {
-    status: response.status,
-    data: response.data
+    status: status,
+    data: result
   }
 })

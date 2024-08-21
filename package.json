@@ -11,8 +11,12 @@
   },
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.12.1",
+    "@prisma/nuxt": "^0.0.35",
     "axios": "^1.7.4",
     "nuxt": "^3.12.4",
     "vue": "latest"
+  },
+  "devDependencies": {
+    "@prisma/client": "^5.18.0"
   }
 }

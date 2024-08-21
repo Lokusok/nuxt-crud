@@ -1,25 +1,32 @@
 import { defineEventHandler, getQuery, setResponseStatus } from "#imports"
-import { apiUsers, USERS_PER_PAGE } from "~/server/config"
+import { USERS_PER_PAGE } from "~/server/config"
+import { prismaClient } from "~/server/orm"
+import isNumeric from '~/server/utils/is-numeric'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
 
-  const start = (Number(query.page) - 1) * USERS_PER_PAGE
+  let status = 200
+  let result = null
 
-  if (Number.isNaN(start)) {
-    return {
-      status: 404,
-      data: []
-    }
+  if (isNumeric(String(query.page))) {
+    const start = (Number(query.page) - 1) * USERS_PER_PAGE
+
+    result = await prismaClient.user.findMany({
+      skip: start,
+      take: 5
+    })
+  } else {
+    status = 400
   }
 
-  const response = await apiUsers.get(`?_start=${start}&_limit=${USERS_PER_PAGE}`)
+  setResponseStatus(event, status)
 
-  setResponseStatus(event, response.status)
+  console.log({ result, status })
 
   return {
-    status: response.status,
-    data: response.data,
-    max_page: 2
+    status: status,
+    data: result,
+    max_page: result ? Math.ceil((await prismaClient.user.count()) / USERS_PER_PAGE) : null
   }
 })

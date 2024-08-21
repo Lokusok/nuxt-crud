@@ -45,24 +45,24 @@
 </template>
 
 <script setup lang="ts">
-import { navigateTo, useFetch, useRoute, useRouter, useSeoMeta, useState } from '#app';
-import { watchEffect } from 'vue';
+import { useFetch, useRoute, useRouter, useSeoMeta } from '#app';
+import { ref, watchEffect } from 'vue';
 import ThePagination from '~/components/ThePagination.vue';
-
-const router = useRouter()
-const route = useRoute()
-const currentPage = useState('current-page', () => Number(route.query.page ?? 1))
 
 useSeoMeta({
   title: 'List of users'
 })
 
-const { data: users, status } = useFetch(`/api/users?page=${currentPage.value}`, {
-  watch: [currentPage],
+const router = useRouter()
+const route = useRoute()
+const currentPage = ref(Number(route.query.page ?? 1))
+
+const { data: users, status } = useFetch(() => `/api/users?page=${currentPage.value}`, {
+  watch: [currentPage]
 })
 
 watchEffect(() => {
-  if (!users.value?.data?.length) {
+  if (status.value !== 'pending' && users.value?.data?.length === 0) {
     currentPage.value = 1
     return router.replace({ path: '/', query: {} })
   }
@@ -72,5 +72,6 @@ watchEffect(() => {
 
 function handlePaginationChange(page: number) {
   currentPage.value = page
+  console.log(currentPage.value, '<<<')
 }
 </script>

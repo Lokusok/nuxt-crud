@@ -6,7 +6,8 @@ export default defineNuxtConfig({
     autoImport: false
   },
   modules: [
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    '@prisma/nuxt'
   ],
   app: {
     head: {
