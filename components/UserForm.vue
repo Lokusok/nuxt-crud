@@ -55,16 +55,18 @@ const props = withDefaults(defineProps<{
   isSubmitButtonDisabled?: boolean,
   submitText?: string,
   defaultName?: string,
-  defaultEmail?: string
+  defaultEmail?: string,
+  defaultAvatar?: string
 }>(), {
   isSubmitButtonDisabled: false,
   submitText: 'Submit',
   defaultName: '',
-  defaultEmail: ''
+  defaultEmail: '',
+  defaultAvatar: ''
 })
 
 const emit = defineEmits<{
-  submit: [{ name: string, email: string, avatar: File | null }]
+  submit: [{ name: string, email: string, avatar: string | null }]
 }>()
 
 defineExpose({
@@ -73,19 +75,21 @@ defineExpose({
 
 const name = ref(props.defaultName)
 const email = ref(props.defaultEmail)
-const avatar = ref<File | null>(null) 
+const avatar = ref(props.defaultAvatar) 
 
 const isSubmitDisabled = computed(() => {
   const isEmpty = name.value.length === 0 || email.value.length === 0
   const isOuterDisabled = props.isSubmitButtonDisabled
-  const isEqualsAsDefault = name.value.trim() === props.defaultName && email.value.trim() === props.defaultEmail
+  const isEqualsAsDefault = (
+    name.value.trim() === props.defaultName && 
+    email.value.trim() === props.defaultEmail &&
+    avatar.value.trim() === props.defaultAvatar
+  )
 
   return isEmpty || isOuterDisabled || isEqualsAsDefault
 })
 
 function handleSubmit() {
-  console.log('Avatar: ', avatar)
-
   emit('submit', {
     name: name.value.trim(),
     email: email.value.trim(),
@@ -96,6 +100,6 @@ function handleSubmit() {
 function resetForm() {
   name.value = ''
   email.value = ''
-  avatar.value = null
+  avatar.value = ''
 }
 </script>

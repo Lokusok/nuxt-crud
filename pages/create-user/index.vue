@@ -17,7 +17,7 @@
         :to="`/users/${prevCreatedUser.id}`"
         class="text-blue-800 underline hover:text-blue-500 active:text-blue-300"
       >
-        Visit him
+        Visit page
       </NuxtLink>
     </TheAlert>
   </FadeTransition>
@@ -30,8 +30,8 @@ import { useSeoMeta } from '#app'
 import type { User } from '@prisma/client'
 
 import UserForm from '~/components/UserForm.vue'
-import TheAlert from '~/components/TheAlert.vue';
-import FadeTransition from '~/components/FadeTransition.vue';
+import TheAlert from '~/components/TheAlert.vue'
+import FadeTransition from '~/components/FadeTransition.vue'
 
 useSeoMeta({
   title: 'Create user'
@@ -65,17 +65,16 @@ watch([message, error], (newValues) => {
   }
 })
 
-async function createUser({ name, email, avatar }: { name: string, email: string, avatar: File | null }) {
+async function createUser({ name, email, avatar }: { name: string, email: string, avatar: string | null }) {
   isCreating.value = true
-
-  console.log(name, email, avatar)
 
   try {
     const response = await $fetch<{ status: number, data: User }>('/api/users', {
       method: 'POST',
       body: {
         name,
-        email
+        email,
+        avatar
       }
     })
   
@@ -85,7 +84,6 @@ async function createUser({ name, email, avatar }: { name: string, email: string
       message.value = 'User successfully created!'
     }
   } catch (e) {
-    console.log('here')
     error.value = 'Error occured'
   } finally {
     isCreating.value = false

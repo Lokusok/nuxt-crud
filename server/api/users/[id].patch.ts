@@ -20,6 +20,7 @@ export default defineEventHandler(async (event) => {
           data: {
             name: body.name,
             email: body.email,
+            avatar: body.avatar
           }
         })
       } catch (e) {

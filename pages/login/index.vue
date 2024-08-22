@@ -124,8 +124,6 @@ async function login() {
       }
     })
 
-    console.log('>>>', response)
-
     if (response.status === 200) {
       const redirectTo = route.query.from ? String(route.query.from) : '/'
       await userSession.fetch()

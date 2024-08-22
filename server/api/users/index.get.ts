@@ -16,7 +16,10 @@ export default defineEventHandler(async (event) => {
     try {
       result = await prismaClient.user.findMany({
         skip: start,
-        take: 5
+        take: 5,
+        orderBy: {
+          createdAt: 'desc'
+        }
       })
     } catch (e) {
       status = 400

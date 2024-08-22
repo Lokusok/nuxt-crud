@@ -29,10 +29,16 @@
           v-for="user in users.data"
           :key="user.id"
           :to="`/users/${user.id}`"
-          class="hover:opacity-70 active:opacity-50 bg-white border-[2px] border-slate-700 rounded px-4 py-4 flex flex-col gap-y-2"
+          class="hover:opacity-70 active:opacity-50 bg-white border-[2px] border-slate-700 rounded px-4 py-4 flex justify-between items-end"
         >
-          <span class="text-xl">{{ user.name }}</span>
-          <span class="text-gray-300 text-sm">{{ user.email }}</span>
+          <div class="flex flex-col gap-y-2">
+            <span class="text-xl">{{ user.name }}</span>
+            <span class="text-gray-300 text-sm">{{ user.email }}</span>
+          </div>
+
+          <div class="text-gray-500 text-[13px]">
+            {{ formatDate(user.createdAt) }}
+          </div>
         </NuxtLink>
       </div>
 
@@ -61,10 +67,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
-import { useFetch, useRoute, useRouter, useSeoMeta } from '#app';
-import { useUserSession } from '#imports';
-import ThePagination from '~/components/ThePagination.vue';
+import { ref, watchEffect } from 'vue'
+import { useFetch, useRoute, useRouter, useSeoMeta } from '#app'
+import { useUserSession } from '#imports'
+import ThePagination from '~/components/ThePagination.vue'
+import formatDate from '~/utils/format-date'
 
 import UserPlusIcon from '~/assets/icons/user-plus.svg'
 
@@ -93,6 +100,5 @@ watchEffect(() => {
 
 function handlePaginationChange(page: number) {
   currentPage.value = page
-  console.log(currentPage.value, '<<<')
 }
 </script>

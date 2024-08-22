@@ -16,12 +16,8 @@ export default defineEventHandler(async (event) => {
         }
       })
 
-      console.log('Admin >>>', admin)
-  
       if (admin) {
         const isPasswordsEquals = await bcrypt.compare(body.password.trim().toLowerCase(), admin.password)
-  
-        console.log('Password Equals >>>', isPasswordsEquals)
   
         if (isPasswordsEquals) {
           await setUserSession(event, {

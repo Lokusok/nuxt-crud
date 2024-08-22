@@ -9,11 +9,11 @@
   </div>
 
   <div
-    v-if="imageUrl"
+    v-if="base64Avatar"
     class="flex justify-center"
   >
     <img
-      :src="imageUrl"
+      :src="base64Avatar"
       class="w-[200px] h-[150px] aspect-square object-cover"
     >
   </div>
@@ -27,10 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
-
-const imageUrl = ref('')
-const fileAvatar = defineModel<File | null>()
+const base64Avatar = defineModel<string>()
 
 function handleUploadFile(event: Event) {
   const target = event.target as HTMLInputElement
@@ -38,13 +35,12 @@ function handleUploadFile(event: Event) {
 
   if (!file) return
 
-  fileAvatar.value = file
-  imageUrl.value = URL.createObjectURL(file)
-}
+  const fileReader = new FileReader()
 
-watchEffect(() => {
-  if (fileAvatar.value === null) {
-    imageUrl.value = ''
+  fileReader.onloadend = () => {
+    base64Avatar.value = fileReader.result?.toString()
   }
-})
+
+  fileReader.readAsDataURL(file)
+}
 </script>

@@ -1,4 +1,4 @@
-import { defineEventHandler, readBody, setResponseStatus } from '#imports'
+import { defineEventHandler, parseDataUrl, readBody, setResponseStatus, storeFileLocally } from '#imports'
 
 import { prismaClient } from '~/server/orm'
 
@@ -10,14 +10,13 @@ export default defineEventHandler(async (event) => {
   let status = 201
   let result = null
 
-  console.log(body.name, body.email)
-
   if (UserDto.check(body)) {
     try {
       result = await prismaClient.user.create({
         data: {
           name: body.name,
-          email: body.email
+          email: body.email,
+          avatar: body.avatar
         }
       })
     } catch (e) {

@@ -18,9 +18,28 @@
 
   <template v-else>
     <template v-if="user.data">
-      <div class="max-w-[400px] mx-auto flex flex-col justify-center items-center gap-y-2">
-        <h2 class="text-xl font-bold">{{ user.data.name }}</h2>
-        <p class="text-gray-600 text-sm">{{ user.data.email }}</p>
+      <div class="pt-4 max-w-[540px] mx-auto flex flex-col justify-center items-center gap-y-4">
+        <div class="flex flex-col gap-y-4 sm:flex-row gap-x-4 items-center">
+          <div>
+            <img :src="user.data.avatar" :alt="user.data.name" class="w-[280px] h-[160px] object-cover rounded">
+          </div>
+
+          <div class="flex flex-col gap-y-2 text-center sm:text-left">
+            <h2 class="text-xl">
+              Name: <span class="font-bold">{{ user.data.name }}</span>
+            </h2>
+            <p class="text-gray-600 text-sm">
+              Email: {{ user.data.email }}
+            </p>
+            <p class="text-gray-600 text-sm">
+              Created: {{ formatDate(user.data.createdAt) }}
+            </p>
+            <p class="text-gray-600 text-sm">
+              Last update: {{ formatDate(user.data.updatedAt) }}
+            </p>
+          </div>
+        </div>
+
         <div class="flex gap-x-3">
           <TheButton @click="toggleEdit">
             {{ mode === 'show' ? 'Edit this user' : 'Stop edit' }}
@@ -76,6 +95,7 @@
               :is-submit-button-disabled="isEditRequestNow"
               :default-name="user.data.name"
               :default-email="user.data.email"
+              :default-avatar="user.data.avatar"
               ref="userFormRef"
               @submit="editUser"
             />
@@ -104,11 +124,12 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter, useFetch, useSeoMeta } from '#app'
 import ArrowLeftIcon from '~/assets/icons/arrow-left.svg'
+import formatDate from '~/utils/format-date'
 
 import UserForm from '~/components/UserForm.vue'
-import TheAlert from '~/components/TheAlert.vue';
-import TheModal from '~/components/TheModal.vue';
-import FadeTransition from '~/components/FadeTransition.vue';
+import TheAlert from '~/components/TheAlert.vue'
+import TheModal from '~/components/TheModal.vue'
+import FadeTransition from '~/components/FadeTransition.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -152,7 +173,7 @@ function toggleEdit() {
   mode.value = mode.value === 'show' ? 'edit' : 'show'
 }
 
-async function editUser({ name, email }: { name: string, email: string }) {
+async function editUser({ name, email, avatar }: { name: string, email: string, avatar: string | null }) {
   isEditRequestNow.value = true
 
   try {
@@ -160,7 +181,8 @@ async function editUser({ name, email }: { name: string, email: string }) {
       method: 'PATCH',
       body: {
         name,
-        email
+        email,
+        avatar
       }
     })
 
