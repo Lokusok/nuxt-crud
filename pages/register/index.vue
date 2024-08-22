@@ -62,6 +62,8 @@
           Log in now!
         </RouterLink>
       </p>
+
+      <OAuthProviders />
     </form>
 
     <FadeTransition>
@@ -72,6 +74,7 @@
         {{ error }}
       </TheAlert>
     </FadeTransition>
+    
   </div>
 </template>
 
@@ -80,6 +83,7 @@ import { ref, computed, watch } from 'vue'
 import { useRouter, useSeoMeta } from '#app'
 
 import PasswordInput from '~/components/PasswordInput.vue'
+import OAuthProviders from '~/components/OAuthProviders.vue'
 
 useSeoMeta({
   title: 'Register in our system'

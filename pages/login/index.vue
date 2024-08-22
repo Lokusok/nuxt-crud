@@ -8,7 +8,7 @@
       class="flex flex-col items-center gap-y-2"
       @submit.prevent="login"
     >
-    <div>
+      <div>
         <label class="flex flex-col gap-y-1">
           Username:
           <TheInput
@@ -60,6 +60,8 @@
           Register it!
         </RouterLink>
       </p>
+
+      <OAuthProviders />
     </form>
 
     <FadeTransition>
@@ -77,6 +79,8 @@
 import { ref, computed, watch } from 'vue'
 import { useUserSession } from '#imports'
 import { useRoute, useRouter, useSeoMeta } from '#app'
+
+import OAuthProviders from '~/components/OAuthProviders.vue'
 import PasswordInput from '~/components/PasswordInput.vue'
 
 useSeoMeta({

@@ -24,7 +24,7 @@
                 <NuxtLink
                   to="/users"
                   :class="{
-                    'text-gray-400 pointer-events-none': !loggedIn
+                    '!text-gray-400 pointer-events-none': !loggedIn
                   }"
                   active-class="underline"
                   class="text-white text-[20px] hover:opacity-70"
@@ -36,7 +36,7 @@
                 <NuxtLink
                   :to="{ name: 'create-user' }"
                   :class="{
-                    'text-gray-400 pointer-events-none': !loggedIn
+                    '!text-gray-400 pointer-events-none': !loggedIn
                   }"
                   active-class="underline"
                   class="text-white text-[20px] hover:opacity-70"
@@ -71,15 +71,24 @@
             </NuxtLink>
           </template>
 
-          <TheButton
-            v-else
-            variation="danger"  
-            class="flex items-center gap-x-2"
-            @click="logout"
-          >
-            <LogoutIcon />
-            Logout
-          </TheButton>
+          <div v-else class="flex flex-col items-center">
+            <NuxtLink
+              to="/admin"
+              active-class="underline pointer-events-none opacity-60"
+              class="text-center text-white hover:opacity-90 hover:underline active:opacity-50"
+            >
+              {{ userSession.user.value?.name }}
+            </NuxtLink>
+
+            <TheButton
+              variation="danger"  
+              class="flex items-center gap-x-2"
+              @click="logout"
+            >
+              <LogoutIcon />
+              Logout
+            </TheButton>
+          </div>
         </div>
       </div>
     </header>

@@ -26,5 +26,10 @@
 </template>
 
 <script setup lang="ts">
+import { useSeoMeta } from '#app'
 import StatisticsIcon from '~/assets/icons/statistics.svg'
+
+useSeoMeta({
+  title: 'Home page'
+})
 </script>

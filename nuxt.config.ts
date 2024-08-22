@@ -5,6 +5,10 @@ export default defineNuxtConfig({
   imports: {
     autoImport: false
   },
+  routeRules: {
+    '/stats/**': { ssr: false },
+    '/admin/**': { ssr: false }
+  },
   modules: [
     '@nuxtjs/tailwindcss',
     '@prisma/nuxt',
