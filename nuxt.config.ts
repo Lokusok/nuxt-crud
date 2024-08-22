@@ -30,7 +30,7 @@ export default defineNuxtConfig({
     port: 3001
   },
   runtimeConfig: {
-    serverApiBase: 'https://jsonplaceholder.typicode.com/'
+    serverApiBase: 'https://jsonplaceholder.typicode.com/',
   },
   prisma: {
     installStudio: false

@@ -4,7 +4,7 @@ declare module '#auth-utils' {
       name: string
       password: string
       createdAt: Date
-      updatedAt: Date
+      updatedAt: Date,
     }
   }
 }
