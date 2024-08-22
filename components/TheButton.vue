@@ -8,18 +8,32 @@
     :disabled="props.isLoading"
     class="disabled:pointer-events-none disabled:opacity-50 active:opacity-80 flex items-center gap-x-3 px-4 py-2 text-white rounded"
   >
-    <TheSpinner
-      v-if="props.isLoading"
-      :size="20"
-    />
-    <slot />
+    <NuxtLink
+      v-if="props.to"
+      :to="props.to"
+    >
+      <TheSpinner
+        v-if="props.isLoading"
+        :size="20"
+      />
+      <slot />
+    </NuxtLink>
+
+    <template v-else>
+      <TheSpinner
+        v-if="props.isLoading"
+        :size="20"
+      />
+      <slot />
+    </template>
   </button>
 </template>
 
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
   variation?: 'info' | 'danger' | 'success',
-  isLoading?: boolean
+  isLoading?: boolean,
+  to?: string | object
 }>(), {
   variation: 'info',
   isLoading: false

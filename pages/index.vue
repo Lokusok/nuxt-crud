@@ -26,5 +26,5 @@
 </template>
 
 <script setup lang="ts">
-import StatisticsIcon from '~/assets/statistics.svg'
+import StatisticsIcon from '~/assets/icons/statistics.svg'
 </script>

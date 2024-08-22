@@ -26,8 +26,8 @@
 import { ref } from 'vue'
 import TheInput from './TheInput.vue'
 
-import EyeIcon from '~/assets/eye.svg'
-import EyeOffIcon from '~/assets/eye-off.svg'
+import EyeIcon from '~/assets/icons/eye.svg'
+import EyeOffIcon from '~/assets/icons/eye-off.svg'
 
 const props = withDefaults(defineProps<{
   withToggler?: boolean

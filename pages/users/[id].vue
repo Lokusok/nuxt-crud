@@ -103,7 +103,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter, useFetch, useSeoMeta } from '#app'
-import ArrowLeftIcon from '~/assets/arrow-left.svg'
+import ArrowLeftIcon from '~/assets/icons/arrow-left.svg'
 
 import UserForm from '~/components/UserForm.vue'
 import TheAlert from '~/components/TheAlert.vue';

@@ -21,7 +21,10 @@
         </h2>
       </div>
 
-      <div class="flex flex-col mx-auto gap-y-3 px-3 max-w-[420px]">
+      <div
+        v-if="users.data.length"
+        class="flex flex-col mx-auto gap-y-3 px-3 max-w-[420px]"
+      >
         <NuxtLink
           v-for="user in users.data"
           :key="user.id"
@@ -31,6 +34,19 @@
           <span class="text-xl">{{ user.name }}</span>
           <span class="text-gray-300 text-sm">{{ user.email }}</span>
         </NuxtLink>
+      </div>
+
+      <div v-else class="text-center flex flex-col gap-y-4">
+        <p class="text-[20px] text-gray-500">...&nbsp;Users empty&nbsp;...</p>
+
+        <div class="flex justify-center">
+          <TheButton :to="{ name: 'create-user' }">
+            <span class="flex gap-x-2 font-bold">
+              <UserPlusIcon class="text-[20px]" />
+              Create here
+            </span>
+          </TheButton>
+        </div>
       </div>
 
       <div class="flex justify-center pt-[20px]">
@@ -45,10 +61,12 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watchEffect } from 'vue';
 import { useFetch, useRoute, useRouter, useSeoMeta } from '#app';
 import { useUserSession } from '#imports';
-import { ref, watchEffect } from 'vue';
 import ThePagination from '~/components/ThePagination.vue';
+
+import UserPlusIcon from '~/assets/icons/user-plus.svg'
 
 const { loggedIn } = useUserSession()
 

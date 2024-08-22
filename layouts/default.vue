@@ -101,13 +101,15 @@
 </template>
 
 <script setup lang="ts">
-import { useUserSession } from '#imports';
+import { useUserSession, useRouter } from '#imports';
 import TheButton from '~/components/TheButton.vue';
-import LogoutIcon from '~/assets/logout.svg'
+import LogoutIcon from '~/assets/icons/logout.svg'
 
 const userSession = useUserSession()
+const router = useRouter()
 
-function logout() {
-  userSession.clear()
+async function logout() {
+  await userSession.clear()
+  router.push('/login')
 }
 </script>

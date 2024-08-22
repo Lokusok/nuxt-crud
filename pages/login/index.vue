@@ -31,6 +31,16 @@
         </label>
       </div>
 
+      <div class="flex flex-start">
+        <label class="flex gap-x-3">
+          Remember me:
+          <input
+            v-model="remember"
+            type="checkbox"
+          />
+        </label>
+      </div>
+
       <div>
         <TheButton
           :disabled="isSubmitButtonDisabled || isLoginRequestNow"
@@ -74,11 +84,13 @@ useSeoMeta({
 })
 
 const userSession = useUserSession()
+
 const router = useRouter()
 const route = useRoute()
 
 const username = ref('')
 const password = ref('')
+const remember = ref(false)
 
 const error = ref('')
 
@@ -117,6 +129,14 @@ async function login() {
     if (response.status === 200) {
       const redirectTo = route.query.from ? String(route.query.from) : '/'
       await userSession.fetch()
+
+      // Not want remember - log out on tab close
+      if (!remember.value) {
+        window.onbeforeunload = () => {
+          userSession.clear()
+        }
+      }
+
       await router.push(redirectTo)
     }
   } catch (e) {
