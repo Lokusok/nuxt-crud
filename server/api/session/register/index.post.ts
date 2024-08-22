@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
         }
       })
     } catch (e) {
+      console.log('Error = ', e)
       status = 400
     }
   } else {

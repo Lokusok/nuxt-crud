@@ -27,6 +27,16 @@
       </label>
     </div>
 
+    <div>
+      <label class="flex flex-col gap-y-1">
+        Avatar of user:
+        <FileInput
+          v-model="avatar"
+          class="w-[235px]"
+        />
+      </label>
+    </div>
+
     <TheButton
       :disabled="isSubmitDisabled"
       type="submit"
@@ -39,6 +49,7 @@
 <script setup lang="ts">
 import { ref, computed, withDefaults } from 'vue'
 import TheInput from './TheInput.vue';
+import FileInput from './FileInput.vue';
 
 const props = withDefaults(defineProps<{
   isSubmitButtonDisabled?: boolean,
@@ -53,7 +64,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  submit: [{ name: string, email: string }]
+  submit: [{ name: string, email: string, avatar: File | null }]
 }>()
 
 defineExpose({
@@ -62,6 +73,7 @@ defineExpose({
 
 const name = ref(props.defaultName)
 const email = ref(props.defaultEmail)
+const avatar = ref<File | null>(null) 
 
 const isSubmitDisabled = computed(() => {
   const isEmpty = name.value.length === 0 || email.value.length === 0
@@ -72,14 +84,18 @@ const isSubmitDisabled = computed(() => {
 })
 
 function handleSubmit() {
+  console.log('Avatar: ', avatar)
+
   emit('submit', {
     name: name.value.trim(),
-    email: email.value.trim()
+    email: email.value.trim(),
+    avatar: avatar.value
   })
 }
 
 function resetForm() {
   name.value = ''
   email.value = ''
+  avatar.value = null
 }
 </script>

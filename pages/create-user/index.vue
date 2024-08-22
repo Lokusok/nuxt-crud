@@ -65,8 +65,10 @@ watch([message, error], (newValues) => {
   }
 })
 
-async function createUser({ name, email }: { name: string, email: string }) {
+async function createUser({ name, email, avatar }: { name: string, email: string, avatar: File | null }) {
   isCreating.value = true
+
+  console.log(name, email, avatar)
 
   try {
     const response = await $fetch<{ status: number, data: User }>('/api/users', {
