@@ -17,6 +17,7 @@
     "@prisma/nuxt": "^0.0.35",
     "axios": "^1.7.4",
     "bcrypt": "^5.1.1",
+    "lodash.debounce": "^4.0.8",
     "nuxt": "^3.12.4",
     "nuxt-auth-utils": "^0.3.4",
     "nuxt-lucide-icons": "^1.0.5",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@prisma/client": "^5.18.0",
     "@types/bcrypt": "^5.0.2",
+    "@types/lodash.debounce": "^4.0.9",
     "nuxt-file-storage": "^0.2.7"
   }
 }

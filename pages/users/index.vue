@@ -7,18 +7,50 @@
   </div>
 
   <template v-else>
-    <TheAlert
-      v-if="users.status !== 200"
-      variation="danger"
-    >
-      Error!
-    </TheAlert>
-
-    <template v-else>
+    <template v-if="users.status === 200">
       <div class="flex justify-center mb-[20px]">
         <h2 class="text-center text-[30px] font-bold">
           List of users
         </h2>
+      </div>
+
+      <div class="relative max-w-[450px] mx-auto">
+        <div class="h-[120px]">
+          <FadeTransition mode="out-in">
+            <SearchBar
+              v-if="activeMode === 'search'"
+              v-model="searchQuery"
+              :is-loading="isSearchRequestNow"
+              class="mb-[30px]"
+            />
+
+            <div v-else>
+              Layout settings
+            </div>
+          </FadeTransition>
+        </div>
+
+        <div class="absolute right-0 top-[30%] -translate-y-[50%] flex flex-col gap-y-[15px]">
+          <button
+            :class="{
+              'pointer-events-none bg-blue-600 opacity-50': activeMode === 'search'
+            }"
+            class="bg-blue-800 text-white w-[30px] h-[30px] rounded-full flex justify-center items-center transition-colors"
+            @click="setActiveMode('search')"
+          >
+            <SearchIcon class="pl-[1.5px] pt-[1.5px] text-[23px]" />
+          </button>
+
+          <button
+            :class="{
+              'pointer-events-none bg-blue-600 opacity-50': activeMode === 'layouts'
+            }"
+            class="bg-blue-800 text-white w-[30px] h-[30px] rounded-full flex justify-center items-center transition-colors"
+            @click="setActiveMode('layouts')"
+          >
+            <GridIcon class="pl-[1.5px] pt-[1.5px] text-[23px]" />
+          </button>
+        </div>
       </div>
 
       <div
@@ -55,7 +87,10 @@
         </div>
       </div>
 
-      <div class="flex justify-center pt-[20px]">
+      <div
+        v-if="!searchQuery.length"
+        class="flex justify-center pt-[20px]"
+      >
         <ThePagination
           :current-page="currentPage"
           :max-page="users.max_page"
@@ -63,16 +98,27 @@
         />
       </div>
     </template>
+
+    <TheAlert
+      v-else
+      variation="danger"
+    >
+      Error!
+    </TheAlert>
   </template>
 </template>
 
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import { useFetch, useRoute, useRouter, useSeoMeta } from '#app'
-import ThePagination from '~/components/ThePagination.vue'
 import formatDate from '~/utils/format-date'
 
+import ThePagination from '~/components/ThePagination.vue'
+import SearchBar from '~/components/SearchBar.vue'
+
 import UserPlusIcon from '~/assets/icons/user-plus.svg'
+import GridIcon from '~/assets/icons/grid.svg'
+import SearchIcon from '~/assets/icons/search.svg'
 
 useSeoMeta({
   title: 'List of users'
@@ -80,10 +126,15 @@ useSeoMeta({
 
 const router = useRouter()
 const route = useRoute()
-const currentPage = ref(Number(route.query.page ?? 1))
 
-const { data: users, status } = useFetch(() => `/api/users?page=${currentPage.value}`, {
-  watch: [currentPage]
+const currentPage = ref(Number(route.query.page ?? 1))
+const searchQuery = ref('')
+const isSearchRequestNow = ref(false)
+
+const activeMode = ref('search')
+
+const { data: users, status } = useFetch(() => `/api/users?page=${currentPage.value}&query=${searchQuery.value}`, {
+  watch: [currentPage, searchQuery]
 })
 
 watchEffect(() => {
@@ -92,10 +143,21 @@ watchEffect(() => {
     return router.replace({ path: '/users', query: {} })
   }
 
-  router.push({ path: '/users', query: { page: currentPage.value } })
+  const newQuery: Record<string, any> = {
+    page: currentPage.value,
+  }
+
+  if (searchQuery.value.length)
+    newQuery['query'] = searchQuery.value
+
+  router.push({ path: '/users', query: newQuery })
 })
 
 function handlePaginationChange(page: number) {
   currentPage.value = page
+}
+
+function setActiveMode(value: string) {
+  activeMode.value = value
 }
 </script>

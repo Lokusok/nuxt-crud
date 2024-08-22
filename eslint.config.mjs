@@ -6,7 +6,8 @@ export default withNuxt(
     {
       rules: {
         'vue/no-multiple-template-root': 'off',
-        'vue/require-default-prop': 'off'
+        'vue/require-default-prop': 'off',
+        '@typescript-eslint/no-explicit-any': 'off'
       }
     }
   ]

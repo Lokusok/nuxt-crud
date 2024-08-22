@@ -9,18 +9,36 @@ export default defineEventHandler(async (event) => {
 
   let status = 200
   let result = null
+  let maxPage = null
+
+  console.log('SearchQuery = ', query.query)
 
   if (isNumeric(String(query.page))) {
     const start = (Number(query.page) - 1) * USERS_PER_PAGE
 
     try {
-      result = await prismaClient.user.findMany({
-        skip: start,
-        take: 5,
-        orderBy: {
-          createdAt: 'desc'
-        }
-      })
+      if (query.query) {
+        result = await prismaClient.user.findMany({
+          orderBy: {
+            createdAt: 'desc'
+          },
+          where: {
+            name: {
+              contains: String(query.query)
+            }
+          }
+        })
+      } else {
+        result = await prismaClient.user.findMany({
+          skip: start,
+          take: 5,
+          orderBy: {
+            createdAt: 'desc'
+          }
+        })
+
+        maxPage = result ? Math.ceil((await prismaClient.user.count()) / USERS_PER_PAGE) : null
+      }
     } catch (e) {
       if (e instanceof Error) {
         status = 400
@@ -35,6 +53,6 @@ export default defineEventHandler(async (event) => {
   return {
     status: status,
     data: result,
-    max_page: result ? Math.ceil((await prismaClient.user.count()) / USERS_PER_PAGE) : null
+    max_page: maxPage
   }
 })

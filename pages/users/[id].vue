@@ -21,7 +21,11 @@
       <div class="pt-4 max-w-[540px] mx-auto flex flex-col justify-center items-center gap-y-4">
         <div class="flex flex-col gap-y-4 sm:flex-row gap-x-4 items-center">
           <div>
-            <img :src="user.data.avatar" :alt="user.data.name" class="w-[280px] h-[160px] object-cover rounded">
+            <img
+              :src="user.data.avatar ?? 'https://placehold.co/280x160'"
+              :alt="user.data.name"
+              class="w-[280px] h-[160px] object-cover rounded"
+            >
           </div>
 
           <div class="flex flex-col gap-y-2 text-center sm:text-left">
