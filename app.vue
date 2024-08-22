@@ -13,8 +13,6 @@ const userSession = useUserSession()
 watchEffect(() => {
   console.group('Session:')
   console.log('Is logged in: ', userSession.loggedIn.value)
-  console.log('User info: ', userSession.user.value)
-  console.log('Session: ', userSession.session.value)
   console.groupEnd()
 })
 

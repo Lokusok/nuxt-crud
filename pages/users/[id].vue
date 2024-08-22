@@ -17,7 +17,7 @@
   </div>
 
   <template v-else>
-    <template v-if="user.data">
+    <template v-if="user && user.data">
       <div class="pt-4 max-w-[540px] mx-auto flex flex-col justify-center items-center gap-y-4">
         <div class="flex flex-col gap-y-4 sm:flex-row gap-x-4 items-center">
           <div>
@@ -96,7 +96,7 @@
               :is-submit-button-disabled="isEditRequestNow"
               :default-name="user.data.name"
               :default-email="user.data.email"
-              :default-avatar="user.data.avatar"
+              :default-avatar="user.data.avatar ?? ''"
               @submit="editUser"
             />
           </FadeTransition>
@@ -121,8 +121,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { useRoute, useRouter, useFetch, useSeoMeta } from '#app'
+import { computed, ref, watch, watchEffect } from 'vue'
+import { useRoute, useRouter, useFetch, useSeoMeta, createError } from '#app'
 import ArrowLeftIcon from '~/assets/icons/arrow-left.svg'
 import formatDate from '~/utils/format-date'
 
@@ -134,6 +134,16 @@ import FadeTransition from '~/components/FadeTransition.vue'
 const router = useRouter()
 const route = useRoute()
 const { data: user, status, refresh } = useFetch(`/api/users/${route.params.id}`);
+
+watchEffect(() => {
+  if (status.value !== 'pending' && !user.value) {
+    throw createError({
+      status: 404,
+      message: 'User not found',
+      fatal: true
+    })
+  }
+})
 
 useSeoMeta({
   title: () => {

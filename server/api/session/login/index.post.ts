@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
             },
           })
         } else {
-          status = 401
+          status = 400
         }
       } else {
         status = 403
