@@ -4,7 +4,7 @@
       <div class="relative container mx-auto px-4 py-6">
         <div class="absolute left-4 top-[50%] -translate-y-[50%]">
           <NuxtLink class="hover:opacity-50" to="/">
-            <img src="~assets/logo.png" width="50" height="50" />
+            <img src="~assets/logo.png" width="50" height="50" >
           </NuxtLink>
         </div>
 
@@ -14,7 +14,7 @@
               <li>
                 <NuxtLink
                   to="/"
-                  activeClass="underline"
+                  active-class="underline"
                   class="text-white text-[20px] hover:opacity-70"
                 >
                   Home
@@ -26,7 +26,7 @@
                   :class="{
                     'text-gray-400 pointer-events-none': !loggedIn
                   }"
-                  activeClass="underline"
+                  active-class="underline"
                   class="text-white text-[20px] hover:opacity-70"
                 >
                   Users
@@ -38,7 +38,7 @@
                   :class="{
                     'text-gray-400 pointer-events-none': !loggedIn
                   }"
-                  activeClass="underline"
+                  active-class="underline"
                   class="text-white text-[20px] hover:opacity-70"
                 >
                   Create user
@@ -54,7 +54,7 @@
           <template v-if="!userSession.loggedIn.value">
             <NuxtLink
               to="/login"
-              activeClass="underline"
+              active-class="underline"
               class="text-white text-[20px] hover:opacity-70"
             >
               Login
@@ -64,7 +64,7 @@
 
             <NuxtLink
               to="/register"
-              activeClass="underline"
+              active-class="underline"
               class="text-white text-[20px] hover:opacity-70"
             >
               Register

@@ -5,8 +5,8 @@
     </h2>
 
     <form
-      @submit.prevent="login"
       class="flex flex-col items-center gap-y-2"
+      @submit.prevent="login"
     >
     <div>
         <label class="flex flex-col gap-y-1">
@@ -37,7 +37,7 @@
           <input
             v-model="remember"
             type="checkbox"
-          />
+          >
         </label>
       </div>
 
@@ -138,7 +138,9 @@ async function login() {
       await router.push(redirectTo)
     }
   } catch (e) {
-    error.value = 'Error occured...'
+    if (e instanceof Error) {
+      error.value = 'Error occured...'
+    }
     resetPassword()
   } finally {
     isLoginRequestNow.value = false

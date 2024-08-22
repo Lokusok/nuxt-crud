@@ -19,4 +19,8 @@ const props = defineProps<{
   currentPage: number
   maxPage: number
 }>()
+
+defineEmits<{
+  change: [page: number]
+}>()
 </script>

@@ -46,8 +46,8 @@
           </TheButton>
           
           <TheButton
-            @click="startDelete"
             variation="danger"
+            @click="startDelete"
           >
             Delete user
           </TheButton>
@@ -70,15 +70,15 @@
 
                 <div class="pt-4 border-t-2 border-blue-800 flex justify-end gap-x-3">
                   <TheButton
-                    @click="stopDelete"
                     :disabled="isDeleteRequestNow"
+                    @click="stopDelete"
                   >
                     Cancel
                   </TheButton>
                   <TheButton
-                    @click="deleteUser"
                     :disabled="isDeleteRequestNow"
                     variation="danger"
+                    @click="deleteUser"
                   >
                     Delete
                   </TheButton>
@@ -92,11 +92,11 @@
           <FadeTransition>
             <UserForm
               v-if="mode === 'edit'"
+              ref="userFormRef"
               :is-submit-button-disabled="isEditRequestNow"
               :default-name="user.data.name"
               :default-email="user.data.email"
               :default-avatar="user.data.avatar"
-              ref="userFormRef"
               @submit="editUser"
             />
           </FadeTransition>
@@ -191,7 +191,9 @@ async function editUser({ name, email, avatar }: { name: string, email: string, 
       refresh()
     }
   } catch (e) {
-    error.value = 'Error occured'
+    if (e instanceof Error) {
+      error.value = 'Error occured'
+    }
   } finally {
     isEditRequestNow.value = false
     mode.value = 'show'
@@ -219,8 +221,10 @@ async function deleteUser() {
       router.go(-1)
     }
   } catch (e) {
-    error.value = 'Error occured'
-    stopDelete()
+    if (e instanceof Error) {
+      error.value = 'Error occured'
+      stopDelete()
+    }
   }
 
   isDeleteRequestNow.value = false

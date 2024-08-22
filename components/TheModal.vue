@@ -5,8 +5,8 @@
   >
     <div class="max-w-[700px] relative bg-white px-8 py-8 rounded shadow-xl m-auto">
       <button
-        @click="$emit('close')"
         class="absolute right-[5px] top-[5px] p-[10px] hover:opacity-80 active:opacity-50"
+        @click="$emit('close')"
       >
         X
       </button>
@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits<{
+defineEmits<{
   close: []
 }>()
 </script>

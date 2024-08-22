@@ -1,9 +1,9 @@
 <template>
   <UserForm
-    @submit="createUser"
-    :is-submit-button-disabled="isSubmitButtonDisabled"
     ref="userFormRef"
+    :is-submit-button-disabled="isSubmitButtonDisabled"
     submit-text="Create new user"
+    @submit="createUser"
   />
 
   <FadeTransition>
@@ -84,7 +84,9 @@ async function createUser({ name, email, avatar }: { name: string, email: string
       message.value = 'User successfully created!'
     }
   } catch (e) {
-    error.value = 'Error occured'
+    if (e instanceof Error) {
+      error.value = 'Error occured'
+    }
   } finally {
     isCreating.value = false
     userFormRef.value!.resetForm()

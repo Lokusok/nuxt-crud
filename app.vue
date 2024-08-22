@@ -26,7 +26,7 @@ watchEffect((onCleanup) => {
 
   if (!teleportsNode || !nuxtWrapper) return
 
-  const mutationObserver = new MutationObserver((entries) => {
+  const mutationObserver = new MutationObserver(() => {
     if (teleportsNode.children.length > 1) {
       nuxtWrapper.setAttribute('inert', '')
     } else {

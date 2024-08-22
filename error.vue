@@ -3,8 +3,8 @@
     <h2 class="text-red-500 text-[24px] font-bold">Error</h2>
     <div class="my-2">Status: {{ props.error!.statusCode }}</div>
     <button
-      @click="resetError"
       class="bg-blue-800 hover:bg-blue-500 px-4 py-2 text-white rounded"
+      @click="resetError"
     >
       Reset this error
     </button>

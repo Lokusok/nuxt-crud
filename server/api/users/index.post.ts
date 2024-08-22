@@ -1,4 +1,4 @@
-import { defineEventHandler, parseDataUrl, readBody, setResponseStatus, storeFileLocally } from '#imports'
+import { defineEventHandler, readBody, setResponseStatus } from '#imports'
 
 import { prismaClient } from '~/server/orm'
 
@@ -20,7 +20,9 @@ export default defineEventHandler(async (event) => {
         }
       })
     } catch (e) {
-      status = 400
+      if (e instanceof Error) {
+        status = 400
+      }
     }
   } else {
     status = 400

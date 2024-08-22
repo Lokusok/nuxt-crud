@@ -5,8 +5,8 @@
     </h2>
 
     <form
-      @submit.prevent="registerUser"
       class="flex flex-col items-center gap-y-2"
+      @submit.prevent="registerUser"
     >
       <div>
         <label class="flex flex-col gap-y-1">
@@ -134,8 +134,10 @@ async function registerUser() {
       await router.push('/login')
     }
   } catch (e) {
-    error.value = 'Error occured...'
-    resetPasswords()
+    if (e instanceof Error) {
+      error.value = 'Error occured...'
+      resetPasswords()
+    }
   } finally {
     isRegisterRequestNow.value = false
   }

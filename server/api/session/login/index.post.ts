@@ -32,7 +32,9 @@ export default defineEventHandler(async (event) => {
         status = 403
       }
     } catch (e) {
-      status = 400
+      if (e instanceof Error) {
+        status = 400
+      }
     }
   } else {
     status = 401

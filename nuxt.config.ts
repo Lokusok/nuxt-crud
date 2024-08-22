@@ -10,8 +10,8 @@ export default defineNuxtConfig({
     '@prisma/nuxt',
     'nuxt-svgo',
     'nuxt-auth-utils',
-    'nuxt-file-storage'
-],
+    "@nuxt/eslint"
+  ],
   app: {
     head: {
       title: 'Nuxt CRUD',
@@ -42,7 +42,7 @@ export default defineNuxtConfig({
       }
     }
   },
-  fileStorage: {
-    mount: './file-storage'
+  eslint: {
+
   }
 })

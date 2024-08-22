@@ -69,13 +69,10 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import { useFetch, useRoute, useRouter, useSeoMeta } from '#app'
-import { useUserSession } from '#imports'
 import ThePagination from '~/components/ThePagination.vue'
 import formatDate from '~/utils/format-date'
 
 import UserPlusIcon from '~/assets/icons/user-plus.svg'
-
-const { loggedIn } = useUserSession()
 
 useSeoMeta({
   title: 'List of users'

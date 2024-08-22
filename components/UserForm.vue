@@ -1,7 +1,7 @@
 <template>
   <form
-    @submit.prevent="handleSubmit"
     class="flex flex-col items-center gap-y-2"
+    @submit.prevent="handleSubmit"
   >
     <div>
       <label class="flex flex-col gap-y-1">

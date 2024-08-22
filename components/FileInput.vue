@@ -23,7 +23,7 @@
     type="file"
     accept="image/*"
     @change="handleUploadFile"
-  />
+  >
 </template>
 
 <script setup lang="ts">

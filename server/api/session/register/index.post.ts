@@ -21,7 +21,9 @@ export default defineEventHandler(async (event) => {
         }
       })
     } catch (e) {
-      status = 400
+      if (e instanceof Error) {
+        status = 400
+      }
     }
   } else {
     status = 401
