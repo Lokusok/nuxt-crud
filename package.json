@@ -15,14 +15,17 @@
     "@nuxt/eslint": "^0.5.1",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@prisma/nuxt": "^0.0.35",
+    "@vueuse/core": "^11.0.1",
     "axios": "^1.7.4",
     "bcrypt": "^5.1.1",
+    "echarts": "^5.5.1",
     "lodash.debounce": "^4.0.8",
     "nuxt": "^3.12.4",
     "nuxt-auth-utils": "^0.3.4",
     "nuxt-lucide-icons": "^1.0.5",
     "nuxt-svgo": "^4.0.3",
-    "vue": "latest"
+    "vue": "latest",
+    "vue-echarts": "^7.0.3"
   },
   "devDependencies": {
     "@prisma/client": "^5.18.0",

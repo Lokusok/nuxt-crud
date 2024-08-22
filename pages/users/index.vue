@@ -109,7 +109,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 import { useFetch, useRoute, useRouter, useSeoMeta } from '#app'
 import formatDate from '~/utils/format-date'
 
@@ -119,6 +119,7 @@ import SearchBar from '~/components/SearchBar.vue'
 import UserPlusIcon from '~/assets/icons/user-plus.svg'
 import GridIcon from '~/assets/icons/grid.svg'
 import SearchIcon from '~/assets/icons/search.svg'
+import { useSessionStorage } from '@vueuse/core'
 
 useSeoMeta({
   title: 'List of users'
@@ -126,10 +127,15 @@ useSeoMeta({
 
 const router = useRouter()
 const route = useRoute()
+const searchQuerySessionStorage = useSessionStorage('search-query', '')
 
 const currentPage = ref(Number(route.query.page ?? 1))
-const searchQuery = ref('')
+const searchQuery = ref(searchQuerySessionStorage.value)
 const isSearchRequestNow = ref(false)
+
+watch(searchQuery, (newValue) => {
+  searchQuerySessionStorage.value = newValue
+})
 
 const activeMode = ref('search')
 
