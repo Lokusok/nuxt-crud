@@ -13,12 +13,16 @@ export default defineEventHandler(async (event) => {
   if (RegisterDto.check(body)) {
     const hashedPassword = await bcrypt.hash(body.password.trim().toLowerCase(), 10)
 
-    await prismaClient.admin.create({
-      data: {
-        name: body.username.trim().toLowerCase(),
-        password: hashedPassword
-      }
-    })
+    try {
+      await prismaClient.admin.create({
+        data: {
+          name: body.username.trim().toLowerCase(),
+          password: hashedPassword
+        }
+      })
+    } catch (e) {
+      status = 400
+    }
   } else {
     status = 401
   }

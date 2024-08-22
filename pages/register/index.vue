@@ -22,10 +22,11 @@
       <div>
         <label class="flex flex-col gap-y-1">
           Password:
-          <TheInput
+          <PasswordInput
             v-model="password"
             type="password"
             placeholder="Your password"
+            with-toggler
           />
         </label>
       </div>
@@ -33,10 +34,11 @@
       <div>
         <label class="flex flex-col gap-y-1">
           Password confirm:
-          <TheInput
+          <PasswordInput
             v-model="passwordConfirm"
             type="password"
             placeholder="Confirm password"
+            with-toggler
           />
         </label>
       </div>
@@ -76,6 +78,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRouter, useSeoMeta } from '#app'
+
+import PasswordInput from '~/components/PasswordInput.vue'
 
 useSeoMeta({
   title: 'Register in our system'

@@ -22,10 +22,11 @@
       <div>
         <label class="flex flex-col gap-y-1">
           Password:
-          <TheInput
+          <PasswordInput
             v-model="password"
             type="password"
             placeholder="Your password"
+            with-toggler
           />
         </label>
       </div>
@@ -50,13 +51,23 @@
         </RouterLink>
       </p>
     </form>
+
+    <FadeTransition>
+      <TheAlert
+        v-if="error.length"
+        variation="danger"
+      >
+        {{ error }}
+      </TheAlert>
+    </FadeTransition>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useUserSession } from '#imports'
-import { useRouter, useSeoMeta } from '#app';
+import { useRoute, useRouter, useSeoMeta } from '#app'
+import PasswordInput from '~/components/PasswordInput.vue'
 
 useSeoMeta({
   title: 'Log in to system'
@@ -64,6 +75,7 @@ useSeoMeta({
 
 const userSession = useUserSession()
 const router = useRouter()
+const route = useRoute()
 
 const username = ref('')
 const password = ref('')
@@ -103,8 +115,9 @@ async function login() {
     console.log('>>>', response)
 
     if (response.status === 200) {
+      const redirectTo = route.query.from ? String(route.query.from) : '/'
       await userSession.fetch()
-      await router.push('/')
+      await router.push(redirectTo)
     }
   } catch (e) {
     error.value = 'Error occured...'

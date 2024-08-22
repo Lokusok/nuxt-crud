@@ -67,7 +67,7 @@ const { data: users, status } = useFetch(() => `/api/users?page=${currentPage.va
 watchEffect(() => {
   if (status.value !== 'pending' && users.value?.data?.length === 0) {
     currentPage.value = 1
-    return router.replace({ path: '/', query: {} })
+    return router.replace({ path: '/users', query: {} })
   }
 
   router.push({ path: '/users', query: { page: currentPage.value } })

@@ -9,35 +9,43 @@
         </div>
 
         <nav>
-          <ul class="flex gap-x-5 justify-center">
-            <li>
-              <NuxtLink
-                to="/"
-                activeClass="underline"
-                class="text-white text-[20px] hover:opacity-70"
-              >
-                Home
-              </NuxtLink>
-            </li>
-            <li>
-              <NuxtLink
-                to="/users"
-                activeClass="underline"
-                class="text-white text-[20px] hover:opacity-70"
-              >
-                Users
-              </NuxtLink>
-            </li>
-            <li>
-              <NuxtLink
-                :to="{ name: 'create-user' }"
-                activeClass="underline"
-                class="text-white text-[20px] hover:opacity-70"
-              >
-                Create user
-              </NuxtLink>
-            </li>
-          </ul>
+          <AuthState v-slot="{ loggedIn }">
+            <ul class="flex gap-x-5 justify-center">
+              <li>
+                <NuxtLink
+                  to="/"
+                  activeClass="underline"
+                  class="text-white text-[20px] hover:opacity-70"
+                >
+                  Home
+                </NuxtLink>
+              </li>
+              <li>
+                <NuxtLink
+                  to="/users"
+                  :class="{
+                    'text-gray-400 pointer-events-none': !loggedIn
+                  }"
+                  activeClass="underline"
+                  class="text-white text-[20px] hover:opacity-70"
+                >
+                  Users
+                </NuxtLink>
+              </li>
+              <li>
+                <NuxtLink
+                  :to="{ name: 'create-user' }"
+                  :class="{
+                    'text-gray-400 pointer-events-none': !loggedIn
+                  }"
+                  activeClass="underline"
+                  class="text-white text-[20px] hover:opacity-70"
+                >
+                  Create user
+                </NuxtLink>
+              </li>
+            </ul>
+          </AuthState>
         </nav>
 
         <div
@@ -93,7 +101,7 @@
 </template>
 
 <script setup lang="ts">
-import { useUserSession, watchEffect } from '#imports';
+import { useUserSession } from '#imports';
 import TheButton from '~/components/TheButton.vue';
 import LogoutIcon from '~/assets/logout.svg'
 
