@@ -1,5 +1,18 @@
 <template>
-  <v-chart class="chart" :option="option" autoresize />
+
+  <div
+    v-if="status === 'pending'"
+    class="flex justify-center"
+  >
+    <TheSpinner />
+  </div>
+
+  <v-chart
+    v-else
+    :option="option"
+    class="chart"
+    autoresize
+  />
 </template>
 
 <script setup>
@@ -13,6 +26,9 @@ import {
 } from 'echarts/components';
 import VChart, { THEME_KEY } from 'vue-echarts';
 import { ref, provide } from 'vue';
+import { useFetch } from '#app';
+
+const { data: stats, status } = useFetch('/api/users/stats')
 
 use([
   CanvasRenderer,
@@ -26,7 +42,7 @@ provide(THEME_KEY, 'dark');
 
 const option = ref({
   title: {
-    text: 'Traffic Sources',
+    text: 'Users and avatars',
     left: 'center',
   },
   tooltip: {
@@ -36,20 +52,17 @@ const option = ref({
   legend: {
     orient: 'vertical',
     left: 'left',
-    data: ['Direct', 'Email', 'Ad Networks', 'Video Ads', 'Search Engines'],
+    data: ['Users with avatar', 'Users without avatar'],
   },
   series: [
     {
-      name: 'Traffic Sources',
+      name: 'Users and avatars',
       type: 'pie',
       radius: '55%',
       center: ['50%', '60%'],
       data: [
-        { value: 335, name: 'Direct' },
-        { value: 310, name: 'Email' },
-        { value: 234, name: 'Ad Networks' },
-        { value: 135, name: 'Video Ads' },
-        { value: 1548, name: 'Search Engines' },
+        { value: stats.value?.result?.usersWithAvatar.length, name: 'Users with avatar' },
+        { value: stats.value?.result?.usersWithoutAvatar.length, name: 'Users without avatar' },
       ],
       emphasis: {
         itemStyle: {

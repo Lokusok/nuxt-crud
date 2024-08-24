@@ -22,7 +22,7 @@
         <div class="flex flex-col gap-y-4 sm:flex-row gap-x-4 items-center">
           <div>
             <img
-              :src="user.data.avatar ?? 'https://placehold.co/280x160'"
+              :src="user.data.avatar || 'https://placehold.co/280x160'"
               :alt="user.data.name"
               class="w-[280px] h-[160px] object-cover rounded"
             >
