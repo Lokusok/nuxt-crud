@@ -14,7 +14,6 @@ export default defineNuxtConfig({
     'nuxt-svgo',
     'nuxt-auth-utils',
     "@nuxt/eslint",
-    '@formkit/auto-animate/nuxt',
     '@vee-validate/nuxt',
     '@nuxtjs/i18n'
   ],
