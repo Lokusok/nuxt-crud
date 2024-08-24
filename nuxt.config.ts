@@ -14,7 +14,8 @@ export default defineNuxtConfig({
     '@prisma/nuxt',
     'nuxt-svgo',
     'nuxt-auth-utils',
-    "@nuxt/eslint"
+    "@nuxt/eslint",
+    '@formkit/auto-animate/nuxt'
   ],
   app: {
     head: {

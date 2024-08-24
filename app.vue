@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { watchEffect } from 'vue';
-import { useUserSession } from '#imports';
+import { watchEffect } from 'vue'
+import { useUserSession } from '#imports'
 
 const userSession = useUserSession()
 
