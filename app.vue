@@ -5,7 +5,20 @@
 </template>
 
 <script setup lang="ts">
-import { watchEffect } from 'vue'
+import { watch, watchEffect } from 'vue'
+import { onMounted, useI18n } from '#imports'
+import { useStorage } from '@vueuse/core'
+
+const { locale, setLocale } = useI18n()
+const localeStorage = useStorage('locale', locale.value)
+
+watch(locale, (newValue) => {
+  localeStorage.value = newValue
+})
+
+onMounted(() => {
+  setLocale(localeStorage.value)
+})
 
 watchEffect((onCleanup) => {
   if (import.meta.server) return

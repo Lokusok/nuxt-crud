@@ -10,7 +10,6 @@
       </p>
     </div>
 
-
     <div class="flex flex-col items-center">
       <p class="text-[20px] font-bold mb-[15px]">
         {{ $t('admin.language.select') }}:
@@ -36,22 +35,12 @@
 </template>
 
 <script setup lang="ts">
-import { useUserSession, useI18n, useSeoMeta, watch, onMounted } from '#imports'
-import { useStorage } from '@vueuse/core';
+import { useUserSession, useI18n, useSeoMeta } from '#imports'
 import TheButton from '~/components/TheButton.vue';
 
 const userSession = useUserSession()
 
 const { locale, setLocale, t } = useI18n()
-const localeStorage = useStorage('locale', locale.value)
-
-watch(locale, (newValue) => {
-  localeStorage.value = newValue
-})
-
-onMounted(() => {
-  setLocale(localeStorage.value)
-})
 
 useSeoMeta({
   title: () => {

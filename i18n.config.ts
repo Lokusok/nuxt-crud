@@ -111,7 +111,7 @@ export default defineI18nConfig(() => ({
           },
           email: {
             label: 'Email of user',
-            placeholder: 'john@example.com',
+            placeholder: "{'john@example.com'}",
             errors: {
               required: 'Required field!',
               notEmail: 'Must be an email!'
@@ -273,7 +273,7 @@ export default defineI18nConfig(() => ({
           },
           email: {
             label: 'Почта пользователя',
-            placeholder: 'ivan@example.ru',
+            placeholder: "{'ivan@example.ru'}",
             errors: {
               required: 'Обязательное поле!',
               notEmail: 'Должно быть почтой!'
