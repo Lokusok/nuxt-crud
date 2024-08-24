@@ -16,6 +16,7 @@
     "@nuxt/eslint": "^0.5.1",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@prisma/nuxt": "^0.0.35",
+    "@vee-validate/nuxt": "^4.13.2",
     "@vueuse/core": "^11.0.1",
     "axios": "^1.7.4",
     "bcrypt": "^5.1.1",
@@ -26,7 +27,8 @@
     "nuxt-lucide-icons": "^1.0.5",
     "nuxt-svgo": "^4.0.3",
     "vue": "latest",
-    "vue-echarts": "^7.0.3"
+    "vue-echarts": "^7.0.3",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@prisma/client": "^5.18.0",

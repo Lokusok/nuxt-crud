@@ -13,10 +13,18 @@
           Username:
           <TheInput
             v-model="username"
+            v-bind="usernameAttrs"
             type="text"
             placeholder="Your username"
           />
         </label>
+
+        <span
+          v-show="errors.username"
+          class="text-red-500"
+        >
+          {{ errors.username }}
+        </span>
       </div>
 
       <div>
@@ -24,11 +32,19 @@
           Password:
           <PasswordInput
             v-model="password"
+            v-bind="passwordAttrs"
             type="password"
             placeholder="Your password"
             with-toggler
           />
         </label>
+
+        <span
+          v-show="errors.password"
+          class="text-red-500"
+        >
+          {{ errors.password }}
+        </span>
       </div>
 
       <div>
@@ -36,11 +52,19 @@
           Password confirm:
           <PasswordInput
             v-model="passwordConfirm"
+            v-bind="passwordConfirmAttrs"
             type="password"
             placeholder="Confirm password"
             with-toggler
           />
         </label>
+
+        <span
+          v-show="errors.passwordConfirm"
+          class="text-red-500"
+        >
+          {{ errors.passwordConfirm }}
+        </span>
       </div>
 
       <div>
@@ -80,7 +104,10 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+import { useForm } from '#imports'
 import { useRouter, useSeoMeta } from '#app'
+
+import * as yup from 'yup'
 
 import PasswordInput from '~/components/PasswordInput.vue'
 import OAuthProviders from '~/components/OAuthProviders.vue'
@@ -91,9 +118,24 @@ useSeoMeta({
 
 const router = useRouter()
 
-const username = ref('')
-const password = ref('')
-const passwordConfirm = ref('')
+const formSchema = yup.object({
+  username: yup.string().required('Required field!').min(2, 'Minimum 2 letters!'),
+  password: yup.string().required('Required field!').min(4, 'Minimum 4 letters!').oneOf([yup.ref('passwordConfirm')], 'Passwords must be equals'),
+  passwordConfirm:  yup.string().required('Required field!').min(4, 'Minimum 4 letters!').oneOf([yup.ref('password')], 'Passwords must be equals')
+})
+
+const { defineField, errors } = useForm({
+  validationSchema: formSchema,
+  initialValues: {
+    username: '',
+    password: '',
+    passwordConfirm: ''
+  }
+})
+
+const [username, usernameAttrs] = defineField('username')
+const [password, passwordAttrs] = defineField('password')
+const [passwordConfirm, passwordConfirmAttrs] = defineField('passwordConfirm')
 
 const error = ref('')
 
