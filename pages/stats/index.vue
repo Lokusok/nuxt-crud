@@ -25,9 +25,9 @@ import {
   LegendComponent,
 } from 'echarts/components';
 import VChart, { THEME_KEY } from 'vue-echarts';
-import { provide, computed, watchEffect } from 'vue';
+import { provide, computed } from 'vue';
 import { useFetch, useSeoMeta } from '#app';
-import { useI18n, useUserSession } from '#imports';
+import { useI18n } from '#imports';
 
 const { t } = useI18n()
 
@@ -36,11 +36,6 @@ useSeoMeta({
 })
 
 const { data: stats, status } = useFetch('/api/users/stats')
-const userSession = useUserSession()
-
-watchEffect(() => {
-  console.log(userSession.loggedIn.value)
-})
 
 use([
   CanvasRenderer,

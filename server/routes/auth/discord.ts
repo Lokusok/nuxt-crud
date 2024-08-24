@@ -5,7 +5,6 @@ export default oauthDiscordEventHandler({
     emailRequired: true
   },
   async onSuccess(event, { user, tokens }) {
-    console.log(user, '<<< [DISCORD]')
     await setUserSession(event, {
       user: {
         name: user.username,
