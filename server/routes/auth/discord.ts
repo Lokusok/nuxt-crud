@@ -1,22 +1,23 @@
-import { oauthGitHubEventHandler, sendRedirect, setUserSession } from "#imports"
+import { oauthDiscordEventHandler, sendRedirect, setUserSession } from "#imports"
 
-export default oauthGitHubEventHandler({
+export default oauthDiscordEventHandler({
   config: {
     emailRequired: true
   },
   async onSuccess(event, { user, tokens }) {
+    console.log(user, '<<< [DISCORD]')
     await setUserSession(event, {
       user: {
-        name: user.name,
+        name: user.username,
         email: user.email,
-        githubId: user.id
+        discordId: user.id
       }
     })
     return sendRedirect(event, '/')
   },
   // Optional, will return a json error and 401 status code by default
   onError(event, error) {
-    console.error('GitHub OAuth error:', error)
+    console.error('Discord OAuth error:', error)
     return sendRedirect(event, '/')
   },
 })

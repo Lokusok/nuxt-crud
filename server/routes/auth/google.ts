@@ -1,10 +1,11 @@
-import { oauthGitHubEventHandler, sendRedirect, setUserSession } from "#imports"
+import { oauthGoogleEventHandler, sendRedirect, setUserSession } from "#imports"
 
-export default oauthGitHubEventHandler({
+export default oauthGoogleEventHandler({
   config: {
     emailRequired: true
   },
   async onSuccess(event, { user, tokens }) {
+    console.log(user, '<<<')
     await setUserSession(event, {
       user: {
         name: user.name,

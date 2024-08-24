@@ -1,8 +1,15 @@
 <template>
-  <div class="max-w-[720px] mx-auto">
-    <p class="text-center font-bold text-[42px] mb-[10px]">
-      {{ $t('admin.titleBeforeName') }}: <u>{{ userSession.session.value.user.name }}</u>
-    </p>
+  <div class="mx-auto">
+    <div class="border-b border-b-gray-200 pb-[20px] mb-[20px]">
+      <p class="text-center font-bold text-[42px] mb-[10px]">
+        {{ $t('admin.titleBeforeName') }}: <u>{{ userSession.session.value.user.name }}</u>
+      </p>
+  
+      <p class="text-center text-gray-800 font-bold text-[20px]">
+        Email: {{ userSession.session.value.user.email }}
+      </p>
+    </div>
+
 
     <div class="flex flex-col items-center">
       <p class="text-[20px] font-bold mb-[15px]">

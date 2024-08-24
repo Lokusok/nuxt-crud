@@ -5,6 +5,9 @@ declare module '#auth-utils' {
       password: string
       createdAt: Date
       updatedAt: Date,
+      email: string
+      githubId?: string
+      discordId?: string
     }
   }
 }
