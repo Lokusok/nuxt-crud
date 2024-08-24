@@ -6,8 +6,7 @@ export default defineNuxtConfig({
     autoImport: false
   },
   routeRules: {
-    '/stats/**': { ssr: false },
-    '/admin/**': { ssr: false }
+    '/stats/**': { ssr: false }
   },
   modules: [
     '@nuxtjs/tailwindcss',

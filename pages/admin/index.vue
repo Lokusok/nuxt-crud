@@ -29,14 +29,22 @@
 </template>
 
 <script setup lang="ts">
-import { useUserSession, useI18n, useCookieLocale, watchEffect, useSeoMeta } from '#imports'
+import { useUserSession, useI18n, useSeoMeta, watch, onMounted } from '#imports'
+import { useStorage } from '@vueuse/core';
 import TheButton from '~/components/TheButton.vue';
 
 const userSession = useUserSession()
 
-const { locale, setLocale, setLocaleCookie, t } = useI18n()
+const { locale, setLocale, t } = useI18n()
+const localeStorage = useStorage('locale', locale.value)
 
-const cookieLocale = useCookieLocale()
+watch(locale, (newValue) => {
+  localeStorage.value = newValue
+})
+
+onMounted(() => {
+  setLocale(localeStorage.value)
+})
 
 useSeoMeta({
   title: () => {
@@ -45,12 +53,7 @@ useSeoMeta({
   }
 })
 
-watchEffect(() => {
-  console.log('Cookie locale: ', cookieLocale.value)
-})
-
 function changeLanguage(value: string) {
   setLocale(value)
-  setLocaleCookie(value)
 }
 </script>
