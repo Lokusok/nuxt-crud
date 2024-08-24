@@ -37,7 +37,7 @@
             v-for="user in users.data"
             :key="user.id"
             :to="`/users/${user.id}`"
-            class="hover:opacity-70 active:opacity-50 bg-white border-[2px] border-slate-700 rounded px-4 py-4 flex justify-between items-end"
+            class="hover:opacity-70 active:opacity-50 bg-white border-[2px] border-slate-700 rounded px-4 py-4 flex justify-between items-end gap-x-3"
           >
             <div class="flex flex-col gap-y-2">
               <span class="text-xl">{{ user.name }}</span>

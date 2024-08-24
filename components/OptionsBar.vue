@@ -11,7 +11,7 @@
 
         <div
           v-if="props.option === 'layouts'"
-          class="flex gap-x-3 justify-center items-center h-[60px]"
+          class="flex gap-x-3 justify-center items-center h-[80px]"
         >
           <TheButton
             :disabled="props.mode === 'flex'"

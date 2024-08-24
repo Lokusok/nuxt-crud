@@ -83,11 +83,21 @@
             <TheButton
               variation="danger"  
               class="flex items-center gap-x-2"
-              @click="logout"
+              @click="startLogout"
             >
               <LogoutIcon />
               Logout
             </TheButton>
+
+            <ConfirmModal
+              :is-show="isLogoutNow"
+              title="Logout?"
+              body="Are you sure in this action?"
+              cancel-text="Cancel"
+              confirm-text="Confirm"
+              @close="stopLogout"
+              @confirm="logout"
+            />
           </div>
         </div>
       </div>
@@ -110,15 +120,27 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useUserSession, useRouter } from '#imports';
 import TheButton from '~/components/TheButton.vue';
 import LogoutIcon from '~/assets/icons/logout.svg'
+import ConfirmModal from '~/components/ConfirmModal.vue';
 
 const userSession = useUserSession()
 const router = useRouter()
 
+const isLogoutNow = ref(false)
+
 async function logout() {
   await userSession.clear()
   router.push('/login')
+}
+
+function startLogout() {
+  isLogoutNow.value = true
+}
+
+function stopLogout() {
+  isLogoutNow.value = false
 }
 </script>

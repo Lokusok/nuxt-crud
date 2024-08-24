@@ -56,40 +56,15 @@
             Delete user
           </TheButton>
 
-          <Teleport to="#teleports">
-            <FadeTransition>
-              <TheModal
-                v-if="isDeleting"
-                @close="stopDelete"
-              >
-                <div class="pb-1 border-b-2 border-blue-800">
-                  <h2 class="text-[20px] font-bold text-center">Delete user {{ user.data.name }}?</h2>
-                </div>
-
-                <div class="my-3">
-                  <p class="text-center max-w-[300px]">
-                    Are you sure in this action? <br> User not be recovered!
-                  </p>
-                </div>
-
-                <div class="pt-4 border-t-2 border-blue-800 flex justify-end gap-x-3">
-                  <TheButton
-                    :disabled="isDeleteRequestNow"
-                    @click="stopDelete"
-                  >
-                    Cancel
-                  </TheButton>
-                  <TheButton
-                    :disabled="isDeleteRequestNow"
-                    variation="danger"
-                    @click="deleteUser"
-                  >
-                    Delete
-                  </TheButton>
-                </div>
-              </TheModal>
-            </FadeTransition>
-          </Teleport>
+          <ConfirmModal
+            :is-show="isDeleting"
+            :title="`Delete user ${user.data.name}?`"
+            body="Are you sure in this action? User not be recovered!"
+            cancel-text="Cancel"
+            confirm-text="Delete"
+            @close="stopDelete"
+            @confirm="deleteUser"
+          />
         </div>
         
         <KeepAlive>
@@ -132,8 +107,8 @@ import formatDate from '~/utils/format-date'
 
 import UserForm from '~/components/UserForm.vue'
 import TheAlert from '~/components/TheAlert.vue'
-import TheModal from '~/components/TheModal.vue'
 import FadeTransition from '~/components/FadeTransition.vue'
+import ConfirmModal from '~/components/ConfirmModal.vue'
 
 const router = useRouter()
 const route = useRoute()
