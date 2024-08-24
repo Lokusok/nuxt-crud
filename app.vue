@@ -6,15 +6,6 @@
 
 <script setup lang="ts">
 import { watchEffect } from 'vue'
-import { useUserSession } from '#imports'
-
-const userSession = useUserSession()
-
-watchEffect(() => {
-  console.group('Session:')
-  console.log('Is logged in: ', userSession.loggedIn.value)
-  console.groupEnd()
-})
 
 watchEffect((onCleanup) => {
   if (import.meta.server) return

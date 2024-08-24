@@ -18,7 +18,7 @@
             class="font-bold"
             @click="changeActiveMode('flex')"
           >
-            Flex
+            Column
           </TheButton>
 
           <TheButton
@@ -50,7 +50,7 @@
         class="bg-blue-800 text-white w-[30px] h-[30px] rounded-full flex justify-center items-center transition-colors"
         @click="changeActiveOption('layouts')"
       >
-        <GridIcon class="pl-[1.5px] pt-[1.5px] text-[23px]" />
+        <GridIcon class="-pl-[4.5px] pt-[1.5px] text-[23px]" />
       </button>
     </div>
   </div>

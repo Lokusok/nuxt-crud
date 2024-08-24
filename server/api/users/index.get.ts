@@ -11,8 +11,6 @@ export default defineEventHandler(async (event) => {
   let result = null
   let maxPage = null
 
-  console.log('SearchQuery = ', query.query)
-
   if (isNumeric(String(query.page))) {
     const start = (Number(query.page) - 1) * USERS_PER_PAGE
 

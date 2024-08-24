@@ -29,7 +29,7 @@
           :key="activeModeStorage"
           :class="{
             'flex flex-col gap-y-3 px-3 max-w-[420px]': activeModeStorage === 'flex',
-            'grid grid-cols-3 gap-3 max-w-[1024px]': activeModeStorage === 'grid',
+            'flex flex-wrap justify-center gap-3 max-w-[1024px]': activeModeStorage === 'grid',
             'mx-auto': true
           }"
         >
@@ -50,7 +50,10 @@
           </NuxtLink>
         </div>
 
-        <div v-else class="text-center flex flex-col gap-y-4">
+        <div
+          v-else
+          class="text-center flex flex-col gap-y-4"
+        >
           <p class="text-[20px] text-gray-500">...&nbsp;Users empty&nbsp;...</p>
   
           <div class="flex justify-center">
@@ -63,7 +66,6 @@
           </div>
         </div>
       </FadeTransition>
-
 
       <div
         v-if="!searchQuery.length"

@@ -7,12 +7,11 @@ const needAuth = [
   '/stats'
 ]
 
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
   const userSession = useUserSession()
   
   if (needAuth.some((routePath) => to.fullPath.startsWith(routePath))) {
-    console.log(to.fullPath, '<<< Нужна авторизация')
-    console.log(userSession.loggedIn.value, '<<< Статус авторизации')
+    await userSession.fetch()
     if (!userSession.loggedIn.value) {
       return navigateTo(`/login?from=${from.fullPath}`)
     }

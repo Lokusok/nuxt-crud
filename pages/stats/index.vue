@@ -25,10 +25,16 @@ import {
   LegendComponent,
 } from 'echarts/components';
 import VChart, { THEME_KEY } from 'vue-echarts';
-import { ref, provide } from 'vue';
+import { provide, computed, watchEffect } from 'vue';
 import { useFetch } from '#app';
+import { useUserSession } from '#imports';
 
 const { data: stats, status } = useFetch('/api/users/stats')
+const userSession = useUserSession()
+
+watchEffect(() => {
+  console.log(userSession.loggedIn.value)
+})
 
 use([
   CanvasRenderer,
@@ -40,7 +46,7 @@ use([
 
 provide(THEME_KEY, 'dark');
 
-const option = ref({
+const option = computed(() => ({
   title: {
     text: 'Users and avatars',
     left: 'center',
@@ -73,7 +79,7 @@ const option = ref({
       },
     },
   ],
-});
+}));
 </script>
 
 <style scoped>
