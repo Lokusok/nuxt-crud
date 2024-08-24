@@ -91,6 +91,7 @@
 <script setup lang="ts">
 import { ref, watch, watchEffect } from 'vue'
 import { useFetch, useRoute, useRouter, useSeoMeta, useState } from '#app'
+import { useI18n } from '#imports'
 import formatDate from '~/utils/format-date'
 
 import ThePagination from '~/components/ThePagination.vue'
@@ -102,8 +103,10 @@ import UserPlusIcon from '~/assets/icons/user-plus.svg'
 import { useSessionStorage } from '@vueuse/core'
 import type { TMode, TOption } from '~/types/users'
 
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'List of users'
+  title: t('users.headTitle')
 })
 
 const router = useRouter()

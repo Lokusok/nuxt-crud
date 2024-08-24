@@ -91,10 +91,10 @@
 
             <ConfirmModal
               :is-show="isLogoutNow"
-              title="Logout?"
-              body="Are you sure in this action?"
-              cancel-text="Cancel"
-              confirm-text="Confirm"
+              :title="$t('modals.logout.title')"
+              :body="$t('modals.logout.body')"
+              :cancel-text="$t('modals.logout.cancelText')"
+              :confirm-text="$t('modals.logout.confirmText')"
               @close="stopLogout"
               @confirm="logout"
             />

@@ -104,7 +104,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { useForm } from '#imports'
+import { useForm, useI18n } from '#imports'
 import { useRouter, useSeoMeta } from '#app'
 
 import * as yup from 'yup'
@@ -112,8 +112,10 @@ import * as yup from 'yup'
 import PasswordInput from '~/components/PasswordInput.vue'
 import OAuthProviders from '~/components/OAuthProviders.vue'
 
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'Register in our system'
+  title: t('register.headTitle')
 })
 
 const router = useRouter()
@@ -181,7 +183,7 @@ async function registerUser() {
     }
   } catch (e) {
     if (e instanceof Error) {
-      error.value = 'Error occured...'
+      error.value = t('requests.register.error')
       resetPasswords()
     }
   } finally {

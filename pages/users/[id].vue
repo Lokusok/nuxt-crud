@@ -5,7 +5,7 @@
       @click="() => $router.go(-1)"
     >
       <ArrowLeftIcon />
-      Go back
+      {{ $t('user.controls.goBack') }}
     </TheButton>
   </div>
   
@@ -18,7 +18,7 @@
 
   <template v-else>
     <template v-if="user && user.data">
-      <div class="pt-4 max-w-[540px] mx-auto flex flex-col justify-center items-center gap-y-4">
+      <div class="pt-4 max-w-[780px] mx-auto flex flex-col justify-center items-center gap-y-4">
         <div class="flex flex-col gap-y-4 sm:flex-row gap-x-4 items-center">
           <div>
             <img
@@ -30,38 +30,38 @@
 
           <div class="flex flex-col gap-y-2 text-center sm:text-left">
             <h2 class="text-xl">
-              Name: <span class="font-bold">{{ user.data.name }}</span>
+              {{ $t('user.nameLabel') }}: <span class="font-bold">{{ user.data.name }}</span>
             </h2>
             <p class="text-gray-600 text-sm">
-              Email: {{ user.data.email }}
+              {{ $t('user.emailLabel') }}: {{ user.data.email }}
             </p>
             <p class="text-gray-600 text-sm">
-              Created: {{ formatDate(user.data.createdAt) }}
+              {{ $t('user.createdLabel') }}: {{ formatDate(user.data.createdAt) }}
             </p>
             <p class="text-gray-600 text-sm">
-              Last update: {{ formatDate(user.data.updatedAt) }}
+              {{ $t('user.updatedLabel') }}: {{ formatDate(user.data.updatedAt) }}
             </p>
           </div>
         </div>
 
         <div class="flex gap-x-3">
           <TheButton @click="toggleEdit">
-            {{ mode === 'show' ? 'Edit this user' : 'Stop edit' }}
+            {{ mode === 'show' ? $t('user.controls.startEdit') : $t('user.controls.stopEdit') }}
           </TheButton>
           
           <TheButton
             variation="danger"
             @click="startDelete"
           >
-            Delete user
+            {{ $t('user.controls.startDelete') }}
           </TheButton>
 
           <ConfirmModal
             :is-show="isDeleting"
-            :title="`Delete user ${user.data.name}?`"
-            body="Are you sure in this action? User not be recovered!"
-            cancel-text="Cancel"
-            confirm-text="Delete"
+            :title="$t('modals.userDelete.title', { username: user.data.name })"
+            :body="$t('modals.userDelete.body')"
+            :cancel-text="$t('modals.userDelete.cancelText')"
+            :confirm-text="$t('modals.userDelete.confirmText')"
             @close="stopDelete"
             @confirm="deleteUser"
           />
@@ -76,6 +76,7 @@
               :default-name="user.data.name"
               :default-email="user.data.email"
               :default-avatar="user.data.avatar ?? ''"
+              :submit-text="$t('user.controls.submitEdit')"
               @submit="editUser"
             />
           </FadeTransition>
@@ -94,13 +95,14 @@
       v-else
       variation="danger"
     >
-      Error occured...
+      {{ $t('requests.userRead.error') }}
     </TheAlert>
   </template>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch, watchEffect } from 'vue'
+import { useI18n } from '#imports'
 import { useRoute, useRouter, useFetch, useSeoMeta, createError } from '#app'
 import ArrowLeftIcon from '~/assets/icons/arrow-left.svg'
 import formatDate from '~/utils/format-date'
@@ -124,10 +126,12 @@ watchEffect(() => {
   }
 })
 
+const { t } = useI18n()
+
 useSeoMeta({
   title: () => {
-    if (!user.value?.data) return 'User page'
-    else return `User ${user.value.data.name} page`
+    if (!user.value?.data) return t('user.headTitle')
+    else return t('user.headTitleInter', { username: user.value.data.name })
   }
 })
 
@@ -176,12 +180,12 @@ async function editUser({ name, email, avatar }: { name: string, email: string, 
     })
 
     if (response.status === 200) {
-      message.value = 'User successfully updated!'
+      message.value = t('requests.userUpdate.success')
       refresh()
     }
   } catch (e) {
     if (e instanceof Error) {
-      error.value = 'Error occured'
+      error.value = t('requests.userUpdate.error')
     }
   } finally {
     isEditRequestNow.value = false
@@ -211,7 +215,7 @@ async function deleteUser() {
     }
   } catch (e) {
     if (e instanceof Error) {
-      error.value = 'Error occured'
+      error.value = t('requests.userDelete.error')
       stopDelete()
     }
   }

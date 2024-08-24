@@ -26,8 +26,14 @@ import {
 } from 'echarts/components';
 import VChart, { THEME_KEY } from 'vue-echarts';
 import { provide, computed, watchEffect } from 'vue';
-import { useFetch } from '#app';
-import { useUserSession } from '#imports';
+import { useFetch, useSeoMeta } from '#app';
+import { useI18n, useUserSession } from '#imports';
+
+const { t } = useI18n()
+
+useSeoMeta({
+  title: t('stats.headTitle')
+})
 
 const { data: stats, status } = useFetch('/api/users/stats')
 const userSession = useUserSession()
@@ -48,7 +54,7 @@ provide(THEME_KEY, 'dark');
 
 const option = computed(() => ({
   title: {
-    text: 'Users and avatars',
+    text: t('stats.title'),
     left: 'center',
   },
   tooltip: {
@@ -58,17 +64,17 @@ const option = computed(() => ({
   legend: {
     orient: 'vertical',
     left: 'left',
-    data: ['Users with avatar', 'Users without avatar'],
+    data: [t('stats.withAvatarsTitle'), t('stats.withoutAvatarsTitle')],
   },
   series: [
     {
-      name: 'Users and avatars',
+      name: t('stats.title'),
       type: 'pie',
       radius: '55%',
       center: ['50%', '60%'],
       data: [
-        { value: stats.value?.result?.usersWithAvatar.length, name: 'Users with avatar' },
-        { value: stats.value?.result?.usersWithoutAvatar.length, name: 'Users without avatar' },
+        { value: stats.value?.result?.usersWithAvatar.length, name: t('stats.withAvatarsTitle') },
+        { value: stats.value?.result?.usersWithoutAvatar.length, name: t('stats.withoutAvatarsTitle') },
       ],
       emphasis: {
         itemStyle: {

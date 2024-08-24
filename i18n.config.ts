@@ -14,10 +14,12 @@ export default defineI18nConfig(() => ({
         logoutButton: 'Logout'
       },
       home: {
+        headTitle: 'Home page',
         description: `Customer Relationship Management (CRM) is a smart program designed to interact with clients. It collects, systematizes, and stores information about customers, providing a comprehensive understanding of their needs and preferences. A CRM system helps automate sales, marketing, and customer service processes, enabling businesses to build strong, long-term relationships with their clients.`,
         inviteToStats: 'See some stats'
       },
       users: {
+        headTitle: 'List of users',
         title: 'List of users',
         searchTitle: 'Search user',
         inputSearchPlaceholder: 'Enter name or email',
@@ -27,11 +29,28 @@ export default defineI18nConfig(() => ({
         empty: 'Users empty',
         createUserInvite: 'Create here'
       },
+      user: {
+        headTitle: 'Page of user',
+        headTitleInter: 'Page of {username}',
+        nameLabel: 'Name',
+        emailLabel: 'Email',
+        createdLabel: 'Created',
+        updatedLabel: 'Last update',
+        controls: {
+          goBack: 'Go back',
+          startEdit: 'Edit this user',
+          stopEdit: 'Stop edit',
+          startDelete: 'Delete user',
+          submitEdit: 'Confirm edit'
+        }
+      },
       createUser: {
+        headTitle: 'Create user',
         title: 'Create user',
         buttonSubmitText: 'Create new user'
       },
       register: {
+        headTitle: 'Register page',
         title: 'Register in our system',
         form: {
           name: {
@@ -54,6 +73,7 @@ export default defineI18nConfig(() => ({
         }
       },
       login: {
+        headTitle: 'Login page',
         title: 'Log in to system',
         form: {
           name: {
@@ -73,6 +93,11 @@ export default defineI18nConfig(() => ({
             linkText: 'Register it!'
           }
         }
+      },
+      stats: {
+        title: 'Users and avatars',
+        withAvatarsTitle: 'Users with avatars',
+        withoutAvatarsTitle: 'Users without avatars'
       },
       components: {
         userForm: {
@@ -98,14 +123,42 @@ export default defineI18nConfig(() => ({
           }
         },
       },
+      modals: {
+        logout: {
+          title: 'Logout?',
+          body: 'Are you sure in this action?',
+          cancelText: 'Cancel',
+          confirmText: 'Confirm'
+        },
+        userDelete: {
+          title: 'Delete user {username}?',
+          body: 'Are you sure in this action? User not be recovered!',
+          cancelText: 'Cancel',
+          confirmText: 'Confirm'
+        },
+      },
       requests: {
         userCreate: {
           success: 'User successfully created!',
           error: 'Error occured',
           visitLinkText: 'Visit page'
+        },
+        userUpdate: {
+          success: 'User successfully updated!',
+          error: 'Error occured'
+        },
+        userDelete: {
+          error: 'Error occured'
+        },
+        login: {
+          error: 'Error occured'
+        },
+        register: {
+          error: 'Error occured'
         }
       },
       admin: {
+        headTitle: 'Admin profile',
         titleBeforeName: 'Admin',
         language: {
           select: 'Select active language'
@@ -122,10 +175,12 @@ export default defineI18nConfig(() => ({
         logoutButton: 'Выход'
       },
       home: {
+        headTitle: 'Главная страница',
         description: `Управление взаимоотношениями с клиентами (CRM) - это интеллектуальная программа, предназначенная для взаимодействия с клиентами. Она собирает, систематизирует и хранит информацию о клиентах, обеспечивая всестороннее понимание их потребностей и предпочтений. CRM-система помогает автоматизировать процессы продаж, маркетинга и обслуживания клиентов, позволяя компаниям выстраивать прочные и долгосрочные отношения со своими клиентами.`,
         inviteToStats: 'Посмотреть статистику'
       },
       users: {
+        headTitle: 'Список пользователей',
         title: 'Список пользователей',
         searchTitle: 'Поиск пользователя',
         inputSearchPlaceholder: 'Введите имя или почту',
@@ -135,11 +190,28 @@ export default defineI18nConfig(() => ({
         empty: 'Нет пользователей',
         createUserInvite: 'Создать тут'
       },
+      user: {
+        headTitle: 'Страница пользователя',
+        headTitleInter: 'Страница {username}',
+        nameLabel: 'Имя',
+        emailLabel: 'Почта',
+        createdLabel: 'Создан',
+        updatedLabel: 'Последнее обновление',
+        controls: {
+          goBack: 'Назад',
+          startEdit: 'Редактировать',
+          stopEdit: 'Отмена редактирования',
+          startDelete: 'Удалить',
+          submitEdit: 'Подтвердить изменение'
+        }
+      },
       createUser: {
+        headTitle: 'Создать пользователя',
         title: 'Создать пользователя',
         buttonSubmitText: 'Создать нового'
       },
       register: {
+        headTitle: 'Регистрация',
         title: 'Регистрация в нашей системе',
         form: {
           name: {
@@ -162,6 +234,7 @@ export default defineI18nConfig(() => ({
         }
       },
       login: {
+        headTitle: 'Вход',
         title: 'Вход в систему',
         form: {
           name: {
@@ -181,6 +254,12 @@ export default defineI18nConfig(() => ({
             linkText: 'Регистрация!'
           }
         }
+      },
+      stats: {
+        headTitle: 'Статистика',
+        title: 'Пользователи и их фото',
+        withAvatarsTitle: 'Пользователи с фото',
+        withoutAvatarsTitle: 'Пользователи без фото'
       },
       components: {
         userForm: {
@@ -206,14 +285,45 @@ export default defineI18nConfig(() => ({
           }
         },
       },
+      modals: {
+        logout: {
+          title: 'Выйти?',
+          body: 'Вы уверены в этом действии?',
+          cancelText: 'Отмена',
+          confirmText: 'Подтвердить'
+        },
+        userDelete: {
+          title: 'Удалить пользователя {username}?',
+          body: 'Вы уверены в этом действии? Восстановить не получится!',
+          cancelText: 'Отмена',
+          confirmText: 'Подтвердить'
+        }
+      },
       requests: {
+        userRead: {
+          empty: 'Error occured'
+        },
         userCreate: {
           success: 'Пользователь успешно создан!',
           error: 'Произошла ошибка',
           visitLinkText: 'Посетить его'
+        },
+        userUpdate: {
+          success: 'Пользователь успешно обновлён!',
+          error: 'Произошла ошибка'
+        },
+        userDelete: {
+          error: 'Произошла ошибка'
+        },
+        login: {
+          error: 'Произошла ошибка'
+        },
+        register: {
+          error: 'Произошла ошибка'
         }
       },
       admin: {
+        headTitle: 'Личный кабинет',
         titleBeforeName: 'Администратор',
         language: {
           select: 'Выберите активный язык'

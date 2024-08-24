@@ -29,14 +29,21 @@
 </template>
 
 <script setup lang="ts">
-import { useUserSession, useI18n, useCookieLocale, watchEffect } from '#imports'
+import { useUserSession, useI18n, useCookieLocale, watchEffect, useSeoMeta } from '#imports'
 import TheButton from '~/components/TheButton.vue';
 
 const userSession = useUserSession()
 
-const { locale, setLocale, setLocaleCookie } = useI18n()
+const { locale, setLocale, setLocaleCookie, t } = useI18n()
 
 const cookieLocale = useCookieLocale()
+
+useSeoMeta({
+  title: () => {
+    void locale.value; // For correct changes
+    return t('admin.headTitle')
+  }
+})
 
 watchEffect(() => {
   console.log('Cookie locale: ', cookieLocale.value)

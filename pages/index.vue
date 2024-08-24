@@ -25,10 +25,13 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from '#imports'
 import { useSeoMeta } from '#app'
 import StatisticsIcon from '~/assets/icons/statistics.svg'
 
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'Home page'
+  title: t('home.headTitle')
 })
 </script>

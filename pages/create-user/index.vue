@@ -38,8 +38,10 @@ import UserForm from '~/components/UserForm.vue'
 import TheAlert from '~/components/TheAlert.vue'
 import FadeTransition from '~/components/FadeTransition.vue'
 
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'Create user'
+  title: t('createUser.title')
 })
 
 const isCreating = ref(false)
@@ -48,8 +50,6 @@ const prevCreatedUser = ref<User | null>(null)
 const message = ref('')
 const error = ref('')
 const userFormRef = ref<{ resetForm: () => void } | null>(null)
-
-const { t } = useI18n()
 
 const displayedMessage = computed<{ content: string, variation: 'danger' | 'info' }>(() => {
   let variation = 'info'

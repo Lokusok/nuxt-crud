@@ -77,14 +77,16 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { useUserSession } from '#imports'
+import { useUserSession, useI18n } from '#imports'
 import { useRoute, useRouter, useSeoMeta } from '#app'
 
 import OAuthProviders from '~/components/OAuthProviders.vue'
 import PasswordInput from '~/components/PasswordInput.vue'
 
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'Log in to system'
+  title: t('login.headTitle')
 })
 
 const userSession = useUserSession()
@@ -143,7 +145,7 @@ async function login() {
     }
   } catch (e) {
     if (e instanceof Error) {
-      error.value = 'Error occured...'
+      error.value = t('requests.login.error')
     }
     resetPassword()
   } finally {
