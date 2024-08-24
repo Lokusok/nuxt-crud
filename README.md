@@ -11,3 +11,8 @@ Tech stack:
 Also:
 - i18n
 - veevalidate
+
+---
+
+Project not building correctly.
+See this [issue](https://github.com/nuxt/nuxt/issues/24690)

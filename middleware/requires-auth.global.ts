@@ -4,7 +4,8 @@ import { useUserSession } from '#imports'
 const needAuth = [
   '/api/users',
   '/users',
-  '/stats'
+  '/stats',
+  '/admin'
 ]
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
