@@ -18,7 +18,7 @@
             class="font-bold"
             @click="changeActiveMode('flex')"
           >
-            Column
+            {{ $t('users.columnOption') }}
           </TheButton>
 
           <TheButton
@@ -26,7 +26,7 @@
             class="font-bold"
             @click="changeActiveMode('grid')"
           >
-            Grid
+            {{ $t('users.gridOption') }}
           </TheButton>
         </div>
       </FadeTransition>

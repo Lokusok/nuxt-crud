@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-[400px] mx-auto">
     <h2 class="text-[24px] font-bold text-center mb-[30px]">
-      Log in to system
+      {{ $t('login.title') }}
     </h2>
 
     <form
@@ -10,22 +10,22 @@
     >
       <div>
         <label class="flex flex-col gap-y-1">
-          Username:
+          {{ $t('login.form.name.label') }}:
           <TheInput
             v-model="username"
+            :placeholder="$t('login.form.name.placeholder')"
             type="text"
-            placeholder="Your username"
           />
         </label>
       </div>
 
       <div>
         <label class="flex flex-col gap-y-1">
-          Password:
+          {{ $t('login.form.password.label') }}:
           <PasswordInput
             v-model="password"
             type="password"
-            placeholder="Your password"
+            :placeholder="$t('login.form.password.placeholder')"
             with-toggler
           />
         </label>
@@ -33,7 +33,7 @@
 
       <div class="flex flex-start">
         <label class="flex gap-x-3">
-          Remember me:
+          {{ $t('login.form.remember.label') }}:
           <input
             v-model="remember"
             type="checkbox"
@@ -47,17 +47,17 @@
           :is-loading="isLoginRequestNow"
           type="submit"
         >
-          Log in
+          {{ $t('login.form.submit') }}
         </TheButton>
       </div>
 
       <p>
-        Have not account?
+        {{ $t('login.form.notHaveAccount.defaultText') }}
         <RouterLink
           to="/register"
           class="text-blue-500 hover:underline active:text-blue-300"
         >
-          Register it!
+          {{ $t('login.form.notHaveAccount.linkText') }}
         </RouterLink>
       </p>
 

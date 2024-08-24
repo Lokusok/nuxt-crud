@@ -1,13 +1,15 @@
 <template>
   <div class="flex flex-col items-center gap-y-2">
-    <span class="text-[20px] font-semibold">Search user</span>
+    <span class="text-[20px] font-semibold">
+      {{ $t('users.searchTitle') }}
+    </span>
     <form
       class="flex items-center gap-x-3"
       @submit.prevent="handleSubmit"
     >
       <TheInput
         v-model="query"
-        placeholder="Enter name or email"
+        :placeholder="$t('users.inputSearchPlaceholder')"
         :disabled="props.isLoading"
       />
       <TheButton
@@ -15,7 +17,7 @@
         :is-loading="props.isLoading"
         class="font-bold"
       >
-        Search
+        {{ $t('users.buttonSearch') }}
       </TheButton>
     </form>
   </div>

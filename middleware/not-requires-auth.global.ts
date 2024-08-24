@@ -13,7 +13,7 @@ export default defineNuxtRouteMiddleware((to) => {
     console.log(to.fullPath, '<<< Не нужна авторизация')
     console.log(userSession.loggedIn.value, '<<< Статус авторизации')
     if (userSession.loggedIn.value) {
-      return navigateTo(`/`)
+      // return navigateTo(`/`)
     }
   }
 })

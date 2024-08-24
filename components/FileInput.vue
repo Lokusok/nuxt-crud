@@ -4,7 +4,9 @@
     class="relative h-[30px] bg-blue-800 rounded shadow-md cursor-pointer hover:bg-blue-700 hover:opacity-70"
   >
     <div class="flex gap-x-3 absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]">
-      <span class="text-white font-semibold">Upload file</span>
+      <span class="text-white font-semibold whitespace-nowrap">
+        {{ props.text }}
+      </span>
     </div>
   </div>
 
@@ -27,6 +29,12 @@
 </template>
 
 <script setup lang="ts">
+const props = withDefaults(defineProps<{
+  text?: string
+}>(), {
+  text: 'Upload file'
+})
+
 const base64Avatar = defineModel<string>()
 
 function handleUploadFile(event: Event) {

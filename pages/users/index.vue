@@ -10,7 +10,7 @@
     <template v-if="users.status === 200">
       <div class="flex justify-center mb-[20px]">
         <h2 class="text-center text-[30px] font-bold">
-          List of users
+          {{ $t('users.title') }}
         </h2>
       </div>
 
@@ -54,13 +54,13 @@
           v-else
           class="text-center flex flex-col gap-y-4"
         >
-          <p class="text-[20px] text-gray-500">...&nbsp;Users empty&nbsp;...</p>
+          <p class="text-[20px] text-gray-500">...&nbsp;{{ $t('users.empty') }}&nbsp;...</p>
   
           <div class="flex justify-center">
             <TheButton :to="{ name: 'create-user' }">
               <span class="flex gap-x-2 font-bold">
                 <UserPlusIcon class="text-[20px]" />
-                Create here
+                {{ $t('users.createUserInvite') }}
               </span>
             </TheButton>
           </div>

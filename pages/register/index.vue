@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-[400px] mx-auto">
     <h2 class="text-[24px] font-bold text-center mb-[30px]">
-      Register in our system
+      {{ $t('register.title') }}
     </h2>
 
     <form
@@ -10,12 +10,12 @@
     >
       <div>
         <label class="flex flex-col gap-y-1">
-          Username:
+          {{ $t('register.form.name.label') }}:
           <TheInput
             v-model="username"
             v-bind="usernameAttrs"
+            :placeholder="$t('register.form.name.placeholder')"
             type="text"
-            placeholder="Your username"
           />
         </label>
 
@@ -29,12 +29,12 @@
 
       <div>
         <label class="flex flex-col gap-y-1">
-          Password:
+          {{ $t('register.form.password.label') }}:
           <PasswordInput
             v-model="password"
             v-bind="passwordAttrs"
+            :placeholder="$t('register.form.password.placeholder')"
             type="password"
-            placeholder="Your password"
             with-toggler
           />
         </label>
@@ -49,12 +49,12 @@
 
       <div>
         <label class="flex flex-col gap-y-1">
-          Password confirm:
+          {{ $t('register.form.passwordConfirm.label') }}:
           <PasswordInput
             v-model="passwordConfirm"
             v-bind="passwordConfirmAttrs"
             type="password"
-            placeholder="Confirm password"
+            :placeholder="$t('register.form.passwordConfirm.placeholder')"
             with-toggler
           />
         </label>
@@ -73,17 +73,17 @@
           :is-loading="isRegisterRequestNow"
           type="submit"
         >
-          Register
+          {{ $t('register.form.submit') }}
         </TheButton>
       </div>
 
       <p>
-        Already have account?
+        {{ $t('register.form.haveAccount.defaultText') }}
         <RouterLink
           to="/login"
           class="text-blue-500 hover:underline active:text-blue-300"
         >
-          Log in now!
+          {{ $t('register.form.haveAccount.linkText') }}
         </RouterLink>
       </p>
 

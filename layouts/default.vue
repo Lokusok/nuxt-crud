@@ -17,7 +17,7 @@
                   active-class="underline"
                   class="text-white text-[20px] hover:opacity-70"
                 >
-                  Home
+                  {{ $t('nav.indexLink') }}
                 </NuxtLink>
               </li>
               <li>
@@ -29,7 +29,7 @@
                   active-class="underline"
                   class="text-white text-[20px] hover:opacity-70"
                 >
-                  Users
+                  {{ $t('nav.usersLink') }}
                 </NuxtLink>
               </li>
               <li>
@@ -41,7 +41,7 @@
                   active-class="underline"
                   class="text-white text-[20px] hover:opacity-70"
                 >
-                  Create user
+                  {{ $t('nav.createUserLink') }}
                 </NuxtLink>
               </li>
             </ul>
@@ -57,7 +57,7 @@
               active-class="underline"
               class="text-white text-[20px] hover:opacity-70"
             >
-              Login
+              {{ $t('nav.loginLink') }}
             </NuxtLink>
 
             /
@@ -67,7 +67,7 @@
               active-class="underline"
               class="text-white text-[20px] hover:opacity-70"
             >
-              Register
+              {{ $t('nav.registerLink') }}
             </NuxtLink>
           </template>
 
@@ -86,7 +86,7 @@
               @click="startLogout"
             >
               <LogoutIcon />
-              Logout
+              {{ $t('nav.logoutButton') }}
             </TheButton>
 
             <ConfirmModal

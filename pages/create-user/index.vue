@@ -1,8 +1,12 @@
 <template>
+  <h2 class="text-[24px] font-bold text-center mb-[30px]">
+    {{ $t('createUser.title') }}
+  </h2>
+
   <UserForm
     ref="userFormRef"
     :is-submit-button-disabled="isSubmitButtonDisabled"
-    submit-text="Create new user"
+    :submit-text="$t('createUser.buttonSubmitText')"
     @submit="createUser"
   />
 
@@ -17,7 +21,7 @@
         :to="`/users/${prevCreatedUser.id}`"
         class="text-blue-800 underline hover:text-blue-500 active:text-blue-300"
       >
-        Visit page
+        {{ $t('requests.userCreate.visitLinkText') }}
       </NuxtLink>
     </TheAlert>
   </FadeTransition>
@@ -26,6 +30,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useSeoMeta } from '#app'
+import { useI18n } from '#imports'
 
 import type { User } from '@prisma/client'
 
@@ -43,6 +48,8 @@ const prevCreatedUser = ref<User | null>(null)
 const message = ref('')
 const error = ref('')
 const userFormRef = ref<{ resetForm: () => void } | null>(null)
+
+const { t } = useI18n()
 
 const displayedMessage = computed<{ content: string, variation: 'danger' | 'info' }>(() => {
   let variation = 'info'
@@ -81,11 +88,11 @@ async function createUser({ name, email, avatar }: { name: string, email: string
     prevCreatedUser.value = response.data
   
     if (response.status === 201) {
-      message.value = 'User successfully created!'
+      message.value = t('requests.userCreate.success')
     }
   } catch (e) {
     if (e instanceof Error) {
-      error.value = 'Error occured'
+      error.value = t('requests.userCreate.error')
     }
   } finally {
     isCreating.value = false

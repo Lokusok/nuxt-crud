@@ -5,9 +5,8 @@
     </h2>
 
     <p class="text-justify text-[18px] mb-3">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi fuga explicabo praesentium sit voluptatibus debitis culpa quaerat repudiandae sequi voluptatum accusamus quia dolore, nihil beatae blanditiis? Odio neque accusamus, optio reiciendis quod repellat minima assumenda pariatur nulla facilis, repellendus quo a mollitia quis, repudiandae doloribus fuga corporis consectetur hic at.
+      {{ $t('home.description') }}
     </p>
-
     <AuthState v-slot="{ loggedIn }">
       <div
         v-if="loggedIn"
@@ -17,7 +16,7 @@
           to="/stats"
           class="flex items-center gap-x-3 bg-green-600 text-white px-4 py-2 rounded text-xl font-bold hover:bg-green-500 active:opacity-70"
         >
-          See some stat
+          {{ $t('home.inviteToStats') }}
           <StatisticsIcon />
         </NuxtLink>
       </div>

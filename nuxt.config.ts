@@ -16,7 +16,8 @@ export default defineNuxtConfig({
     'nuxt-auth-utils',
     "@nuxt/eslint",
     '@formkit/auto-animate/nuxt',
-    '@vee-validate/nuxt'
+    '@vee-validate/nuxt',
+    '@nuxtjs/i18n'
   ],
   app: {
     head: {
@@ -26,6 +27,13 @@ export default defineNuxtConfig({
   router: {
     options: {
       scrollBehaviorType: 'smooth'
+    }
+  },
+  i18n: {
+    vueI18n: './i18n.config.ts',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected'
     }
   },
   devServer: {

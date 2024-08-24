@@ -5,13 +5,13 @@
   >
     <div>
       <label class="flex flex-col gap-y-1">
-        Name of user:
+        {{ $t('components.userForm.name.label') }}:
         <TheInput
           v-model="name"
           v-bind="nameAttrs"
+          :placeholder="$t('components.userForm.name.placeholder')"
           class="px-2 py-1 rounded border-2 border-blue-800"
           type="text"
-          placeholder="John"
         />
 
         <span
@@ -25,13 +25,13 @@
 
     <div>
       <label class="flex flex-col gap-y-1">
-        Email of user:
+        {{ $t('components.userForm.email.label') }}:
         <TheInput
           v-model="email"
           v-bind="emailAttrs"
+          :placeholder="$t('components.userForm.email.placeholder')"
           class="px-2 py-1 rounded border-2 border-blue-800"
           type="text"
-          placeholder="john@example.com"
         />
       </label>
 
@@ -45,9 +45,10 @@
 
     <div>
       <label class="flex flex-col gap-y-1">
-        Avatar of user:
+        {{ $t('components.userForm.avatar.label') }}:
         <FileInput
           v-model="avatar"
+          :text="$t('components.userForm.avatar.text')"
           class="w-[235px]"
         />
       </label>
@@ -56,6 +57,7 @@
     <TheButton
       :disabled="isSubmitDisabled"
       type="submit"
+      class="font-bold"
     >
       {{ props.submitText }}
     </TheButton>
@@ -64,6 +66,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useI18n } from '#imports'
 import { useForm } from 'vee-validate'
 
 import * as yup from 'yup'
@@ -85,6 +88,8 @@ const props = withDefaults(defineProps<{
   defaultAvatar: ''
 })
 
+const { t } = useI18n()
+
 const emit = defineEmits<{
   submit: [{ name: string, email: string, avatar: string | null }]
 }>()
@@ -94,8 +99,8 @@ defineExpose({
 })
 
 const formSchema = yup.object({
-  name: yup.string().required('Required field!').min(2, '2 letters minimum!'),
-  email: yup.string().required('Required field!').email('Must be email!')
+  name: yup.string().required(t('components.userForm.name.errors.required')).min(2, t('components.userForm.name.errors.minLength')),
+  email: yup.string().required(t('components.userForm.email.errors.required')).email(t('components.userForm.email.errors.notEmail'))
 })
 
 const { defineField, errors, isFieldValid } = useForm({
